@@ -1,9 +1,9 @@
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { JWT_SECRET } from '../utils/config.js'
 import jwt from 'jsonwebtoken'
-import User from '../domain/user.js'
+import { findUserById } from '../domain/user.js'
 
-export async function validateTeacherRole(req, res, next) {
+export function validateTeacherRole(req, res, next) {
   if (!req.user) {
     return sendMessageResponse(res, 500, 'Unable to verify user')
   }
@@ -43,8 +43,9 @@ export async function validateAuthentication(req, res, next) {
   }
 
   const decodedToken = jwt.decode(token)
-  const foundUser = await User.findById(decodedToken.userId)
+  const foundUser = await findUserById(decodedToken.userId)
   delete foundUser.passwordHash
+  delete foundUser.dbUser
 
   req.user = foundUser
 

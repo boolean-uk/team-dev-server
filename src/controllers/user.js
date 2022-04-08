@@ -1,20 +1,28 @@
-import User from '../domain/user.js'
+import {
+  saveUser,
+  hydrateUserFromJSON,
+  findUserByEmail,
+  findUserById,
+  findUsersByFirstName,
+  findAllUsers
+} from '../domain/user.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
-  const userToCreate = await User.fromJson(req.body)
+  const userToCreate = await hydrateUserFromJSON(req.body)
 
   try {
-    const existingUser = await User.findByEmail(userToCreate.email)
+    const existingUser = await findUserByEmail(userToCreate.email)
 
     if (existingUser) {
       return sendDataResponse(res, 400, { email: 'Email already in use' })
     }
 
-    const createdUser = await userToCreate.save()
+    const createdUser = await saveUser(userToCreate)
 
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
+    console.log(error)
     return sendMessageResponse(res, 500, 'Unable to create new user')
   }
 }
@@ -23,7 +31,7 @@ export const getById = async (req, res) => {
   const id = parseInt(req.params.id)
 
   try {
-    const foundUser = await User.findById(id)
+    const foundUser = await findUserById(id)
 
     if (!foundUser) {
       return sendDataResponse(res, 404, { id: 'User not found' })
@@ -42,9 +50,9 @@ export const getAll = async (req, res) => {
   let foundUsers
 
   if (firstName) {
-    foundUsers = await User.findManyByFirstName(firstName)
+    foundUsers = await findUsersByFirstName(firstName)
   } else {
-    foundUsers = await User.findAll()
+    foundUsers = await findAllUsers()
   }
 
   const formattedUsers = foundUsers.map((user) => {
@@ -56,7 +64,7 @@ export const getAll = async (req, res) => {
   return sendDataResponse(res, 200, { users: formattedUsers })
 }
 
-export const updateById = async (req, res) => {
+export const updateById = (req, res) => {
   const { cohort_id: cohortId } = req.body
 
   if (!cohortId) {

@@ -1,4 +1,4 @@
-import User from '../domain/user.js'
+import { findUserByEmail } from '../domain/user.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { JWT_EXPIRY, JWT_SECRET } from '../utils/config.js'
@@ -14,7 +14,7 @@ export const login = async (req, res) => {
   }
 
   try {
-    const foundUser = await User.findByEmail(email)
+    const foundUser = await findUserByEmail(email)
     const areCredentialsValid = await validateCredentials(password, foundUser)
 
     if (!areCredentialsValid) {

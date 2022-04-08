@@ -1,68 +1,21 @@
 import dbClient from '../utils/dbClient.js'
 import bcrypt from 'bcrypt'
 
-export default class User {
-  /**
-   * This is JSDoc - a way for us to tell other developers what types functions/methods
-   * take as inputs, what types they return, and other useful information that JS doesn't have built in
-   * @tutorial https://www.valentinog.com/blog/jsdoc
-   *
-   * @param { { id: int, cohortId: int, email: string, profile: { firstName: string, lastName: string, bio: string, githubUrl: string } } } user
-   * @returns {User}
-   */
-  static fromDb(user) {
-    return new User(
-      user.id,
-      user.cohortId,
-      user.profile.firstName,
-      user.profile.lastName,
-      user.email,
-      user.profile.bio,
-      user.profile.githubUrl,
-      user.password,
-      user.role
-    )
-  }
-
-  static async fromJson(json) {
-    // eslint-disable-next-line camelcase
-    const { first_name, last_name, email, biography, github_url, password } =
-      json
-
-    const passwordHash = await bcrypt.hash(password, 8)
-
-    return new User(
-      null,
-      null,
-      first_name,
-      last_name,
-      email,
-      biography,
-      github_url,
-      passwordHash
-    )
-  }
-
-  constructor(
-    id,
-    cohortId,
-    firstName,
-    lastName,
-    email,
-    bio,
-    githubUrl,
-    passwordHash = null,
-    role = 'STUDENT'
-  ) {
-    this.id = id
-    this.cohortId = cohortId
-    this.firstName = firstName
-    this.lastName = lastName
-    this.email = email
-    this.bio = bio
-    this.githubUrl = githubUrl
-    this.passwordHash = passwordHash
-    this.role = role
+/**
+ * This class handles translating a user representation between View and Model
+ */
+class User {
+  constructor(dbUser) {
+    this.dbUser = dbUser
+    this.id = dbUser.id
+    this.cohortId = dbUser.cohortId
+    this.email = dbUser.email
+    this.role = dbUser.role
+    this.passwordHash = dbUser.password
+    this.firstName = dbUser.profile.firstName
+    this.lastName = dbUser.profile.lastName
+    this.bio = dbUser.profile.bio
+    this.githubUrl = dbUser.profile.githubUrl
   }
 
   toJSON() {
@@ -79,85 +32,110 @@ export default class User {
       }
     }
   }
+}
 
-  /**
-   * @returns {User}
-   *  A user instance containing an ID, representing the user data created in the database
-   */
-  async save() {
-    const createdUser = await dbClient.user.create({
-      data: {
-        email: this.email,
-        password: this.passwordHash,
-        cohortId: this.cohortId,
-        role: this.role,
-        profile: {
-          create: {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            bio: this.bio,
-            githubUrl: this.githubUrl
-          }
+/**
+ * This is JSDoc - a way for us to tell other developers what types functions/methods
+ * take as inputs, what types they return, and other useful information that JS doesn't have built in
+ * @tutorial https://www.valentinog.com/blog/jsdoc
+ *
+ * @returns {User}
+ *  A user instance containing an ID, representing the user data created in the database
+ */
+export async function saveUser(user) {
+  const createdUser = await dbClient.user.create({
+    data: {
+      email: user.email,
+      password: user.passwordHash,
+      cohortId: user.cohortId,
+      role: user.role,
+      profile: {
+        create: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          bio: user.bio,
+          githubUrl: user.githubUrl
         }
-      },
-      include: {
-        profile: true
       }
-    })
+    },
+    include: {
+      profile: true
+    }
+  })
 
-    return User.fromDb(createdUser)
+  return new User(createdUser)
+}
+
+export async function hydrateUserFromJSON(json) {
+  // eslint-disable-next-line camelcase
+  const { first_name, last_name, email, biography, github_url, password } = json
+
+  const objectToHydrate = {
+    email,
+    profile: {
+      firstName: first_name,
+      lastName: last_name,
+      bio: biography,
+      githubUrl: github_url
+    }
   }
 
-  static async findByEmail(email) {
-    return User._findByUnique('email', email)
+  if (password) {
+    objectToHydrate.password = await bcrypt.hash(password, 8)
   }
 
-  static async findById(id) {
-    return User._findByUnique('id', id)
+  return new User(objectToHydrate)
+}
+
+export async function findUserByEmail(email) {
+  return await findUserByUniqueKey('email', email)
+}
+
+export async function findUserById(id) {
+  return await findUserByUniqueKey('id', id)
+}
+
+export async function findUsersByFirstName(firstName) {
+  return await findManyUsersByKeyValue('firstName', firstName)
+}
+
+export async function findAllUsers() {
+  return await findManyUsersByKeyValue()
+}
+
+async function findUserByUniqueKey(key, value) {
+  const foundUser = await dbClient.user.findUnique({
+    where: {
+      [key]: value
+    },
+    include: {
+      profile: true
+    }
+  })
+
+  if (foundUser) {
+    return new User(foundUser)
   }
 
-  static async findManyByFirstName(firstName) {
-    return User._findMany('firstName', firstName)
+  return null
+}
+
+async function findManyUsersByKeyValue(key = null, value = null) {
+  const query = {
+    include: {
+      profile: true
+    }
   }
 
-  static async findAll() {
-    return User._findMany()
-  }
-
-  static async _findByUnique(key, value) {
-    const foundUser = await dbClient.user.findUnique({
-      where: {
+  if (key !== null) {
+    query.where = {
+      profile: {
         [key]: value
-      },
-      include: {
-        profile: true
       }
-    })
-
-    if (foundUser) {
-      return User.fromDb(foundUser)
     }
-
-    return null
   }
 
-  static async _findMany(key, value) {
-    const query = {
-      include: {
-        profile: true
-      }
-    }
+  const foundUsers = await dbClient.user.findMany(query)
 
-    if (key !== undefined && value !== undefined) {
-      query.where = {
-        profile: {
-          [key]: value
-        }
-      }
-    }
-
-    const foundUsers = await dbClient.user.findMany(query)
-
-    return foundUsers.map((user) => User.fromDb(user))
-  }
+  return foundUsers.map((user) => new User(user))
 }
