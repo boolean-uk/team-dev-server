@@ -88,19 +88,19 @@ export async function hydrateUserFromJSON(json) {
 }
 
 export async function findUserByEmail(email) {
-  return await findUserByUniqueKey('email', email)
+  return findUserByUniqueKey('email', email)
 }
 
 export async function findUserById(id) {
-  return await findUserByUniqueKey('id', id)
+  return findUserByUniqueKey('id', id)
 }
 
 export async function findUsersByFirstName(firstName) {
-  return await findManyUsersByKeyValue('firstName', firstName)
+  return findManyUsersByKeyValue('firstName', firstName)
 }
 
 export async function findAllUsers() {
-  return await findManyUsersByKeyValue()
+  return findManyUsersByKeyValue()
 }
 
 async function findUserByUniqueKey(key, value) {

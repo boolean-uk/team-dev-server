@@ -22,7 +22,6 @@ export const create = async (req, res) => {
 
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
-    console.log(error)
     return sendMessageResponse(res, 500, 'Unable to create new user')
   }
 }
