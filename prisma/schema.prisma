@@ -11,6 +11,7 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+
 enum Role {
   STUDENT
   TEACHER
