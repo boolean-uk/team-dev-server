@@ -3,7 +3,7 @@ import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
   try {
-    const createdCohort = await createCohort()
+    const createdCohort = await createCohort(req)
 
     return sendDataResponse(res, 201, createdCohort)
   } catch (e) {
