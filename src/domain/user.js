@@ -10,7 +10,7 @@ export default class User {
    * @param { { id: int, cohortId: int, email: string, profile: { firstName: string, lastName: string, bio: string, githubUrl: string } } } user
    * @returns {User}
    */
-  static fromDb(user) {
+  static fromDb (user) {
     return new User(
       user.id,
       user.cohortId,
@@ -24,7 +24,7 @@ export default class User {
     )
   }
 
-  static async fromJson(json) {
+  static async fromJson (json) {
     // eslint-disable-next-line camelcase
     const { first_name, last_name, email, biography, github_url, password } =
       json
@@ -43,7 +43,7 @@ export default class User {
     )
   }
 
-  constructor(
+  constructor (
     id,
     cohortId,
     firstName,
@@ -65,7 +65,7 @@ export default class User {
     this.role = role
   }
 
-  toJSON() {
+  toJSON () {
     return {
       user: {
         id: this.id,
@@ -84,7 +84,7 @@ export default class User {
    * @returns {User}
    *  A user instance containing an ID, representing the user data created in the database
    */
-  async save() {
+  async save () {
     const createdUser = await dbClient.user.create({
       data: {
         email: this.email,
@@ -108,23 +108,23 @@ export default class User {
     return User.fromDb(createdUser)
   }
 
-  static async findByEmail(email) {
+  static async findByEmail (email) {
     return User._findByUnique('email', email)
   }
 
-  static async findById(id) {
+  static async findById (id) {
     return User._findByUnique('id', id)
   }
 
-  static async findManyByFirstName(firstName) {
+  static async findManyByFirstName (firstName) {
     return User._findMany('firstName', firstName)
   }
 
-  static async findAll() {
+  static async findAll () {
     return User._findMany()
   }
 
-  static async _findByUnique(key, value) {
+  static async _findByUnique (key, value) {
     const foundUser = await dbClient.user.findUnique({
       where: {
         [key]: value
@@ -141,7 +141,7 @@ export default class User {
     return null
   }
 
-  static async _findMany(key, value) {
+  static async _findMany (key, value) {
     const query = {
       include: {
         profile: true
