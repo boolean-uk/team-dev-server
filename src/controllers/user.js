@@ -12,6 +12,7 @@ export const create = async (req, res) => {
     }
 
     const createdUser = await userToCreate.save()
+    console.log(createdUser)
 
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
