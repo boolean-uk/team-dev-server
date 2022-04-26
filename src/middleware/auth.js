@@ -3,7 +3,7 @@ import { JWT_SECRET } from '../utils/config.js'
 import jwt from 'jsonwebtoken'
 import User from '../domain/user.js'
 
-export async function validateTeacherRole (req, res, next) {
+export async function validateTeacherRole(req, res, next) {
   if (!req.user) {
     return sendMessageResponse(res, 500, 'Unable to verify user')
   }
@@ -17,7 +17,7 @@ export async function validateTeacherRole (req, res, next) {
   next()
 }
 
-export async function validateAuthentication (req, res, next) {
+export async function validateAuthentication(req, res, next) {
   const header = req.header('authorization')
 
   if (!header) {
@@ -51,7 +51,7 @@ export async function validateAuthentication (req, res, next) {
   next()
 }
 
-function validateToken (token) {
+function validateToken(token) {
   if (!token) {
     return false
   }
@@ -61,7 +61,7 @@ function validateToken (token) {
   })
 }
 
-function validateTokenType (type) {
+function validateTokenType(type) {
   if (!type) {
     return false
   }

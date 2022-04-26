@@ -8,14 +8,14 @@ const STATUS_MESSAGES = {
   500: 'error'
 }
 
-export function sendDataResponse (res, statusCode, payload) {
+export function sendDataResponse(res, statusCode, payload) {
   return res.status(statusCode).json({
     status: STATUS_MESSAGES[statusCode],
     data: payload
   })
 }
 
-export function sendMessageResponse (res, statusCode, message) {
+export function sendMessageResponse(res, statusCode, message) {
   return res.status(statusCode).json({
     status: STATUS_MESSAGES[statusCode],
     message
