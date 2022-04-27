@@ -11,7 +11,7 @@ export default class User {
    * @returns {User}
    */
   static fromDb(user) {
-    console.log('fromDB', user)
+
     return new User(
       user.id,
       user.cohortId,
@@ -26,19 +26,18 @@ export default class User {
   }
 
   static async fromJson(json) {
-    // eslint-disable-next-line camelcase
-    const { first_name, last_name, email, biography, github_url, password, role } = json
-    console.log('from json', json)
-    const passwordHash = await bcrypt.hash(password, 8)
+    const { firstName, lastName, email, biography, githubUrl, password, role } =
+      json
 
+    const passwordHash = await bcrypt.hash(password, 8)
     return new User(
       null,
       null,
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
       biography,
-      github_url,
+      githubUrl,
       passwordHash,
       role
     )
