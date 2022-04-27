@@ -11,7 +11,6 @@ export default class User {
    * @returns {User}
    */
   static fromDb(user) {
-
     return new User(
       user.id,
       user.cohortId,
@@ -28,7 +27,6 @@ export default class User {
   static async fromJson(json) {
     const { firstName, lastName, email, biography, githubUrl, password, role } =
       json
-
     const passwordHash = await bcrypt.hash(password, 8)
     return new User(
       null,
@@ -52,7 +50,7 @@ export default class User {
     bio,
     githubUrl,
     passwordHash = null,
-    role
+    role = 'STUDENT'
   ) {
     this.id = id
     this.cohortId = cohortId
