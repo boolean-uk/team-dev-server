@@ -25,21 +25,19 @@ export default class User {
   }
 
   static async fromJson(json) {
-    // eslint-disable-next-line camelcase
-    const { first_name, last_name, email, biography, github_url, password } =
+    const { firstName, lastName, email, biography, githubUrl, password, role } =
       json
-
     const passwordHash = await bcrypt.hash(password, 8)
-
     return new User(
       null,
       null,
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
       biography,
-      github_url,
-      passwordHash
+      githubUrl,
+      passwordHash,
+      role
     )
   }
 
