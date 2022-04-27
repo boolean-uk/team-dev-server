@@ -1,4 +1,5 @@
 import dbClient from '../utils/dbClient.js'
+
 import { sendDataResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
