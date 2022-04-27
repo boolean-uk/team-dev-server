@@ -6,7 +6,6 @@ import {
 } from '../middleware/auth.js'
 
 const router = Router()
-// validateAuthentication, validateTeacherRole,
-router.post('/', create)
+router.post('/', validateAuthentication, validateTeacherRole, create)
 
 export default router
