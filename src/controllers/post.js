@@ -4,7 +4,6 @@ import { sendDataResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
-  console.log(req.user)
   if (!content) {
     return sendDataResponse(res, 400, { content: 'Must provide content' })
   }
@@ -18,7 +17,6 @@ export const create = async (req, res) => {
       }
     }
   })
-  console.log('my post', createdPost)
   return sendDataResponse(res, 201, { post: createdPost })
 }
 
