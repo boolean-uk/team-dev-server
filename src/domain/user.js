@@ -108,6 +108,12 @@ export default class User {
     return User.fromDb(createdUser)
   }
 
+  async update() {
+    // const updatedUser = await dbClient.user.update({
+    throw new Error('Unimplemented')
+    // })
+  }
+
   static async findByEmail(email) {
     return User._findByUnique('email', email)
   }

@@ -60,30 +60,16 @@ export const updateById = async (req, res) => {
   console.log(req.body)
   const id = parseInt(req.params.id)
 
-  const userDetails = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    bio: req.body.bio,
-    githubUrl: req.body.githubUrl
-  }
+  const user = await User.fromJson(req.body)
+  console.log("user", user)
 
   // check if req.body exists
   // if req.body exists we need to check which values we are updating
-
-  const user = await prisma.profile.update({
-    where: { userId: id },
-    data: {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      bio: req.body.bio,
-      githubUrl: req.body.githubUrl
-    },
-  })
+  const updatedUser = await user.update(id)
   console.log('this is where we are: ', user)
+  return sendDataResponse(res, 201, updatedUser)
+  }
+ 
 
-  // if (!cohortId) {
-  //   return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
-  // }
 
-  // return sendDataResponse(res, 201, { user: { cohort_id: cohortId } })
-}
+
