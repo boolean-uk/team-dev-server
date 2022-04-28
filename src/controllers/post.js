@@ -23,7 +23,11 @@ export const create = async (req, res) => {
 export const getAll = async (req, res) => {
   const allPosts = await dbClient.post.findMany({
     include: {
-      user: true
+      user: {
+        include: {
+          profile: true
+        }
+      }
     }
   })
   return sendDataResponse(res, 200, {
