@@ -4,7 +4,6 @@ import { sendDataResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
-
   if (!content) {
     return sendDataResponse(res, 400, { content: 'Must provide content' })
   }
@@ -65,8 +64,13 @@ export const getAll = async (req, res) => {
           profile: true
         }
       }
-    }
+    },
+    orderBy: {
+      createdAt: 'desc'
+    },
+    take: 100
   })
+
   return sendDataResponse(res, 200, {
     posts: allPosts
   })
