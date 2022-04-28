@@ -19,7 +19,6 @@ export async function validateTeacherRole(req, res, next) {
 
 export async function validateAuthentication(req, res, next) {
   const header = req.header('authorization')
-
   if (!header) {
     return sendDataResponse(res, 401, {
       authorization: 'Missing Authorization header'
