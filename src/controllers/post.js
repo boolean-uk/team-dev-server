@@ -29,13 +29,6 @@ export const createComment = async (req, res) => {
     return sendDataResponse(res, 400, { content: 'Must provide content' })
   }
 
-  /*
-  Rather than send the postId in side the request body, it might better 
-  to have it as a route param? For example:
-  router.post('/:id/comment', validateAuthentication, createComment)
- You'll need to update your controller to get the post if from req.params, 
- and also need to convert it to an int before passing to Prisma,
-  */
   if (!postId) {
     return sendDataResponse(res, 400, {
       post: 'comments must be related to a post'
