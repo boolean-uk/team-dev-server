@@ -26,9 +26,14 @@ export const getAll = async (req, res) => {
       user: {
         include: {
           profile: true
+          // WE NEED THIS TO ONLY RETURN THE FIRST 100 (MOST RECENT)
         }
       }
-    }
+    },
+    orderBy: {
+      id: 'desc'
+    },
+    take: 2
   })
   return sendDataResponse(res, 200, {
     posts: allPosts
