@@ -66,9 +66,9 @@ export const getAll = async (req, res) => {
       }
     },
     orderBy: {
-      id: 'desc'
+      createdAt: 'desc'
     },
-    take: 2
+    take: 100
   })
 
   return sendDataResponse(res, 200, {
