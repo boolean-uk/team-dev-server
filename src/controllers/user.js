@@ -58,7 +58,6 @@ export const getAll = async (req, res) => {
 
 export const updateById = async (req, res) => {
   const userToFind = +req.params.id
-  console.log(req.body)
   const user = await User.fromJson(req.body)
   user.id = userToFind
   delete user.role
