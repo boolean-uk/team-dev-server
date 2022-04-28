@@ -77,7 +77,11 @@ export const getAll = async (req, res) => {
             profile: true
           }
         }
-      }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 100
     })
     return sendDataResponse(res, 200, {
       posts: allPosts
