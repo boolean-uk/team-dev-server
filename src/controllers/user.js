@@ -57,15 +57,11 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-  console.log('req.user firing: ', req.user)
-  const id = parseInt(req.params.id)
-
-  // const user = await User.fromJson(req.body)
-  // console.log("user", user)
-
-  // check if req.body exists
-  // if req.body exists we need to check which values we are updating
-  // const updatedUser = await user.update(id)
-  // console.log('this is where we are: ', user)
-  // return sendDataResponse(res, 201, updatedUser)
+  const userToFind = +req.params.id
+  console.log(req.body)
+  const user = await User.fromJson(req.body)
+  user.id = userToFind
+  delete user.role
+  const updatedUser = await user.update()
+  return sendDataResponse(res, 201, updatedUser)
 }
