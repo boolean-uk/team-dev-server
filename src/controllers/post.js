@@ -4,7 +4,7 @@ import Joi from 'joi'
 
 export const create = async (req, res) => {
   const schema = Joi.object({
-    content: Joi.string().min(3).required()
+    content: Joi.string().min(3).max(150).required()
   })
   const { error, value } = schema.validate(req.body)
   if (error) {
@@ -42,9 +42,7 @@ export const createComment = async (req, res) => {
     where: { id: parseInt(postId) }
   })
   if (!commentOnPost) {
-    return sendDataResponse(res, 400, {
-      post: 'You CANNOT comment on a nonexistent post'
-    })
+    return sendDataResponse(res, 404, { error: 'Post not found' })
   }
   try {
     const createdComment = await dbClient.postComment.create({
