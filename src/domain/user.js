@@ -25,21 +25,21 @@ export default class User {
   }
 
   static async fromJson(json) {
-    // eslint-disable-next-line camelcase
-    const { first_name, last_name, email, biography, github_url, password } =
-      json
-
+    const { email, biography, password, role } = json
+    const firstName = json.first_name
+    const lastName = json.last_name
+    const githubUrl = json.github_url
     const passwordHash = await bcrypt.hash(password, 8)
-
     return new User(
       null,
       null,
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
       biography,
-      github_url,
-      passwordHash
+      githubUrl,
+      passwordHash,
+      role
     )
   }
 
@@ -71,11 +71,11 @@ export default class User {
         id: this.id,
         cohort_id: this.cohortId,
         role: this.role,
-        first_name: this.firstName,
-        last_name: this.lastName,
+        firstName: this.firstName,
+        lastName: this.lastName,
         email: this.email,
         biography: this.bio,
-        github_url: this.githubUrl
+        githubUrl: this.githubUrl
       }
     }
   }
