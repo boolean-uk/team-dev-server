@@ -27,6 +27,7 @@ export const login = async (req, res) => {
 
     return sendDataResponse(res, 200, { token, ...foundUser.toJSON() })
   } catch (e) {
+    console.error('error processing login', e.message)
     return sendMessageResponse(res, 500, 'Unable to process request')
   }
 }
