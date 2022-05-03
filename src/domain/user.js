@@ -151,7 +151,7 @@ export default class User {
     if (key !== undefined && value !== undefined) {
       query.where = {
         profile: {
-          [key]: value
+          [key]: {contains: value}
         }
       }
     }
