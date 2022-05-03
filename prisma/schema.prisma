@@ -66,6 +66,10 @@ model PostComment {
   updatedAt DateTime @updatedAt
 }
 
+model PostLike {
+  id 
+}
+
 model DeliveryLog {
   id       Int               @id @default(autoincrement())
   date     DateTime
