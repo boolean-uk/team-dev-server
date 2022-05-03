@@ -1,6 +1,6 @@
 import dbClient from '../utils/dbClient.js'
-import { sendDataResponse } from '../utils/responses.js'
 import Joi from 'joi'
+import { sendDataResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
   const schema = Joi.object({
@@ -18,6 +18,13 @@ export const create = async (req, res) => {
         user: {
           connect: {
             id: req.user.id
+          }
+        }
+      },
+      include: {
+        user: {
+          include: {
+            profile: true
           }
         }
       }
