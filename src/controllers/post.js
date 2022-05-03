@@ -30,13 +30,13 @@ export const create = async (req, res) => {
 
 export const createComment = async (req, res) => {
   const schema = Joi.object({
-    content: Joi.string().min(3).max(150).required()
+    comment: Joi.string().min(3).max(150).required()
   })
   const { error, value } = schema.validate(req.body)
   if (error) {
     return sendDataResponse(res, 400, { error: error.details[0].message })
   }
-  const { content } = value
+  const { comment } = value
   const { postId } = req.params
   const commentOnPost = await dbClient.post.findUnique({
     where: { id: parseInt(postId) }
@@ -47,7 +47,7 @@ export const createComment = async (req, res) => {
   try {
     const createdComment = await dbClient.postComment.create({
       data: {
-        content: content,
+        content: comment,
         post: {
           connect: {
             id: parseInt(postId)
@@ -70,6 +70,11 @@ export const getAll = async (req, res) => {
   try {
     const allPosts = await dbClient.post.findMany({
       include: {
+        postComments: {
+          orderBy: {
+            createdAt: 'desc'
+          }
+        },
         user: {
           include: {
             profile: true
@@ -85,6 +90,7 @@ export const getAll = async (req, res) => {
       posts: allPosts
     })
   } catch (e) {
+    console.log(e)
     return sendDataResponse(res, 500, { error: e.message })
   }
 }
