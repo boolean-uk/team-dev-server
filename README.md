@@ -16,6 +16,41 @@
 5. `npx prisma migrate reset` to apply migrations to your db
 6. `npm run dev` to run the app
 
+## User Input Validiation
+
+- We will use [Joi](https://www.npmjs.com/package/joi) library for this task, What is Joi?
+- It is the most powerful schema description language and data validator for JavaScript.
+
+1. Run `npm ci` and Joi will be installed on your local machine.
+2. Import the module in your file
+    ```js
+    import Joi from 'joi'
+    //This module returns a class, so we have to use Pascal naming convention.
+    ```
+3. To use joi first we need to define a schema,this schema will define the shape of our object.
+  ```js
+  const schema = Joi.object({
+    name: Joi.string().min(3).required(),
+    age: Joi.number().integer().min(1).max(30).required(),
+    type: Joi.string().min(3).required(),
+    breed: Joi.string().min(3).required(),
+    microchip: Joi.boolean().required()
+  })
+  ```
+4. The value is validated against the defined schema,
+  this validate method will return an object that has 2 props (error & value)
+  only one of these can have a value and the other one will be undefined,
+  in case we got an error the value prop will be undefined, otherwise error prop will be undefined.
+  ```js
+  const { error, value } = schema.validate(req.body)
+  if (error) {
+    res.status(400)
+    res.json({ error: error.details[0].message })
+    return
+  }
+  const { name, age, type, breed, microchip } = value
+  ```
+
 ## Sample Requests
 
 If you use [Insomnia](https://insomnia.rest/), you can import [this request collection .json file](./assets/insomnia_request_collection.json) in the `./assets/` folder to hit the ground running with all of the requests ready to test.
