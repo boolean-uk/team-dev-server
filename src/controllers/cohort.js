@@ -10,3 +10,7 @@ export const create = async (req, res) => {
     return sendMessageResponse(res, 500, 'Unable to create cohort')
   }
 }
+
+export const getCohort = async (req, res) => {
+
+}
