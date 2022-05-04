@@ -116,11 +116,6 @@ export const getAll = async (req, res) => {
           include: {
             profile: true
           }
-        },
-        postComments: {
-          orderBy: {
-            createdAt: 'desc'
-          }
         }
       },
       orderBy: {
