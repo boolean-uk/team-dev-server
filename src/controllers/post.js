@@ -76,13 +76,13 @@ export const createComment = async (req, res) => {
 export const likePost = async (req, res) => {
   const { postId } = req.params
   const { id } = req.user
-  const likeOnPost = await dbClient.post.findUnique({
-    where: { id: parseInt(postId) }
-  })
-  if (!likeOnPost) {
-    return sendDataResponse(res, 404, { error: 'Post not found' })
-  }
   try {
+    const likeOnPost = await dbClient.post.findUnique({
+      where: { id: parseInt(postId) }
+    })
+    if (!likeOnPost) {
+      return sendDataResponse(res, 404, { error: 'Post not found' })
+    }
     await dbClient.postLike.create({
       data: {
         post: {
