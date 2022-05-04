@@ -59,11 +59,8 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-
-  //! This code works for a teahcer but not for a student
-  //! A student should only be allowed to change their own details
   //TODO: get the id of the user that is logged in
-  //TODO: check their role
+  const userLoggedId = req.user.id
   //TODO: implement conditional flow
   
   const userToFind = +req.params.id
