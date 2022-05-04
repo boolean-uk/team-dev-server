@@ -1,8 +1,6 @@
 import { Router } from 'express'
 import { create, getById, getAll, updateById } from '../controllers/user.js'
-import {
-  validateAuthentication
-} from '../middleware/auth.js'
+import { validateAuthentication } from '../middleware/auth.js'
 
 const router = Router()
 
