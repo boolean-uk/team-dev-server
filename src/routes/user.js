@@ -16,9 +16,9 @@ const router = Router()
 router.post('/', create)
 router.get('/', validateAuthentication, getAll)
 router.get(
-  '/student',
-  // validateAuthentication,
-  // validateTeacherRole,
+  '/studentWithoutCohort',
+  validateAuthentication,
+  validateTeacherRole,
   getStudentWithoutCohort
 )
 router.get('/:id', validateAuthentication, getById)

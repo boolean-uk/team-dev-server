@@ -1,6 +1,7 @@
 import User from '../domain/user.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import dbClient from '../utils/dbClient.js'
+// import res from 'express/lib/response'
 
 export const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body)
@@ -16,7 +17,7 @@ export const create = async (req, res) => {
 
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
-    return sendMessageResponse(res, 500, 'Unable to create new user')
+    return sendMessageResponse(res, 500, 'Server Error')
   }
 }
 
@@ -68,11 +69,15 @@ export const updateById = async (req, res) => {
 }
 
 export const getStudentWithoutCohort = async (req, res) => {
-  const userWithoutId = await dbClient.user.findMany({
-    where: {
-      role: 'STUDENT',
-      cohortId: null
-    }
-  })
-  res.json({ data: userWithoutId })
+  try {
+    const userWithoutId = await dbClient.user.findMany({
+      where: {
+        role: 'STUDENT',
+        cohortId: null
+      }
+    })
+    return sendDataResponse(res, 201, userWithoutId)
+  } catch (e) {
+    return sendMessageResponse(res, 500, 'Server Not Found')
+  }
 }
