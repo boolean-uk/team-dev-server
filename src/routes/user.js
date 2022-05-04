@@ -4,7 +4,8 @@ import {
   getById,
   getAll,
   updateById,
-  getStudentWithoutCohort
+  getStudentWithoutCohort,
+  updateUserCohortById
 } from '../controllers/user.js'
 import {
   validateAuthentication,
@@ -23,6 +24,11 @@ router.get(
 )
 router.get('/:id', validateAuthentication, getById)
 router.put('/', validateAuthentication, updateById)
-router.patch('/:id/cohort', validateAuthentication, validateTeacherRole)
+router.patch(
+  '/:id/cohort',
+  validateAuthentication,
+  validateTeacherRole,
+  updateUserCohortById
+)
 
 export default router
