@@ -96,6 +96,9 @@ export const getStudentWithoutCohort = async (req, res) => {
       where: {
         role: 'STUDENT',
         cohortId: null
+      },
+      include: {
+        profile: true
       }
     })
     return sendDataResponse(res, 201, userWithoutId)
