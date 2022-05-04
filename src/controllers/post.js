@@ -73,6 +73,36 @@ export const createComment = async (req, res) => {
   }
 }
 
+export const likePost = async (req, res) => {
+  const { postId } = req.params
+  const { id } = req.user
+  try {
+    const likeOnPost = await dbClient.post.findUnique({
+      where: { id: parseInt(postId) }
+    })
+    if (!likeOnPost) {
+      return sendDataResponse(res, 404, { error: 'Post not found' })
+    }
+    await dbClient.postLike.create({
+      data: {
+        post: {
+          connect: {
+            id: parseInt(postId)
+          }
+        },
+        user: {
+          connect: {
+            id: id
+          }
+        }
+      }
+    })
+    return sendDataResponse(res, 201, true)
+  } catch (e) {
+    return sendDataResponse(res, 500, { error: e.message })
+  }
+}
+
 export const getAll = async (req, res) => {
   try {
     const allPosts = await dbClient.post.findMany({
@@ -85,6 +115,11 @@ export const getAll = async (req, res) => {
         user: {
           include: {
             profile: true
+          }
+        },
+        postComments: {
+          orderBy: {
+            createdAt: 'desc'
           }
         }
       },

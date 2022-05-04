@@ -27,6 +27,7 @@ model User {
   posts        Post[]
   postComments PostComment[]
   deliveryLogs DeliveryLog[]
+  postLike     PostLike[]
 }
 
 model Profile {
@@ -53,6 +54,7 @@ model Post {
   updatedAt    DateTime      @updatedAt
   user         User          @relation(fields: [userId], references: [id])
   postComments PostComment[]
+  postLike     PostLike[]
 }
 
 model PostComment {
@@ -62,6 +64,16 @@ model PostComment {
   userId    Int      
   post      Post     @relation(fields: [postId], references: [id])
   postId    Int      
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostLike {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
