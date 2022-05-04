@@ -61,10 +61,10 @@ export const getAll = async (req, res) => {
 export const updateById = async (req, res) => {
   try {
     if (
-      !req.body.firstName ||
-      !req.body.lastName ||
-      !req.body.bio ||
-      !req.body.githubUrl
+      req.body.firstName === undefined ||
+      req.body.lastName === undefined ||
+      req.body.bio === undefined ||
+      req.body.githubUrl === undefined
     ) {
       return sendMessageResponse(res, 400, 'Please update all details')
     } else {
