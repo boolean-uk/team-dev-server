@@ -82,16 +82,16 @@ export const likePost = async (req, res) => {
     return sendDataResponse(res, 404, { error: 'Post not found' })
   }
   try {
-    await dbClient.postlike.create({
+    await dbClient.postLike.create({
       data: {
         post: {
           connect: {
             id: parseInt(postId)
-          },
-          user: {
-            connect: {
-              id: 1
-            }
+          }
+        },
+        user: {
+          connect: {
+            id: 1
           }
         }
       }
