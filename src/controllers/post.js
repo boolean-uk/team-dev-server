@@ -75,6 +75,7 @@ export const createComment = async (req, res) => {
 
 export const likePost = async (req, res) => {
   const { postId } = req.params
+  const { id } = req.user
   const likeOnPost = await dbClient.post.findUnique({
     where: { id: parseInt(postId) }
   })
@@ -91,7 +92,7 @@ export const likePost = async (req, res) => {
         },
         user: {
           connect: {
-            id: 1
+            id: id
           }
         }
       }

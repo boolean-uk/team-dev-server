@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import User from '../domain/user.js'
 
 export async function validateTeacherRole(req, res, next) {
+  console.log(req.user)
   if (!req.user) {
     return sendMessageResponse(res, 500, 'Unable to verify user')
   }
