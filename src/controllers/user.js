@@ -82,13 +82,19 @@ export const updateById = async (req, res) => {
 }
 
 export const updateUserCohortById = async (req, res) => {
-  const { id, cohort_id: cohortId } = req.body
+  const { cohort_id: cohortId } = req.body
+  const { id } = req.params
 
   if (!cohortId) {
     return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
   }
 
-  const updateUser = await User.updateUsersCohort(Number(id), Number(cohortId))
-
-  return sendDataResponse(res, 201, updateUser)
+  try {
+    const user = await User.findById(Number(id))
+    user.cohortId = Number(cohortId)
+    const updateUser = await user.update()
+    return sendDataResponse(res, 201, updateUser)
+  } catch (error) {
+    return sendMessageResponse(res, 500, 'Unable to update user')
+  }
 }

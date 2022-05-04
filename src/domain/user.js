@@ -185,17 +185,4 @@ export default class User {
 
     return foundUsers.map((user) => User.fromDb(user))
   }
-
-  static async updateUsersCohort(id, cohortId) {
-    const updatedUser = await dbClient.user.update({
-      where: {
-        id: id
-      },
-      data: {
-        cohortId: cohortId
-      }
-    })
-
-    return updatedUser
-  }
 }
