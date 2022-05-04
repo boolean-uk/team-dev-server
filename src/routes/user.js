@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { create, getById, getAll, updateById } from '../controllers/user.js'
 import {
-  validateAuthentication,
+  validateAuthentication
   // validateTeacherRole
 } from '../middleware/auth.js'
 
