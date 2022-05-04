@@ -59,7 +59,12 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-  if (req.body.firstName && req.body.lastName && req.body.bio && req.body.githubUrl) {
+  if (
+    req.body.firstName &&
+    req.body.lastName &&
+    req.body.bio &&
+    req.body.githubUrl
+  ) {
     req.user.firstName = req.body.firstName
     req.user.lastName = req.body.lastName
     req.user.bio = req.body.bio
