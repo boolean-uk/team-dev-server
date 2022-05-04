@@ -1,7 +1,6 @@
 import User from '../domain/user.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import dbClient from '../utils/dbClient.js'
-// import res from 'express/lib/response'
 
 export const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body)
@@ -59,6 +58,29 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
+  try {
+    if (
+      req.body.firstName === undefined ||
+      req.body.lastName === undefined ||
+      req.body.bio === undefined ||
+      req.body.githubUrl === undefined
+    ) {
+      return sendMessageResponse(res, 400, 'Please update all details')
+    } else {
+      req.user.firstName = req.body.firstName
+      req.user.lastName = req.body.lastName
+      req.user.bio = req.body.bio
+      req.user.githubUrl = req.body.githubUrl
+      const updatedUser = await req.user.update()
+      return sendDataResponse(res, 201, updatedUser)
+    }
+  } catch (error) {
+    console.log(error)
+    return sendMessageResponse(res, 500, 'Unable to update user')
+  }
+}
+
+export const updateUserCohortById = async (req, res) => {
   const { cohort_id: cohortId } = req.body
 
   if (!cohortId) {
