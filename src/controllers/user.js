@@ -61,9 +61,9 @@ export const getAll = async (req, res) => {
 export const updateById = async (req, res) => {
   try {
     if (
-      !req.body.firstName &&
-      !req.body.lastName &&
-      !req.body.bio &&
+      !req.body.firstName ||
+      !req.body.lastName ||
+      !req.body.bio ||
       !req.body.githubUrl
     ) {
       return sendMessageResponse(res, 400, 'Please update all details')
