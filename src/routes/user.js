@@ -10,6 +10,6 @@ const router = Router()
 router.post('/', create)
 router.get('/', validateAuthentication, getAll)
 router.get('/:id', validateAuthentication, getById)
-router.patch('/:id', validateAuthentication, updateById)
+router.put('/', validateAuthentication, updateById)
 // removed validateTeacherRole middleware from the pathc method above ⬆
 export default router

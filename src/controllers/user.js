@@ -59,14 +59,13 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-  //TODO: get the id of the user that is logged in
-  const userLoggedId = req.user.id
-  //TODO: implement conditional flow
-  
-  const userToFind = +req.params.id
-  const user = await User.fromJson(req.body)
-  user.id = userToFind
-  delete user.role
-  const updatedUser = await user.update()
-  return sendDataResponse(res, 201, updatedUser)
+  if (req.body.firstName && req.body.lastName && req.body.bio && req.body.githubUrl) {
+    req.user.firstName = req.body.firstName
+    req.user.lastName = req.body.lastName
+    req.user.bio = req.body.bio
+    req.user.githubUrl = req.body.githubUrl
+    const updatedUser = await req.user.update()
+    return sendDataResponse(res, 201, updatedUser)
+  }
+  return sendMessageResponse(res, 400, 'Please update all details')
 }
