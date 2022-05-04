@@ -70,9 +70,9 @@ export const updateById = async (req, res) => {
 export const getStudentWithoutCohort = async (req, res) => {
   const userWithoutId = await dbClient.user.findMany({
     where: {
+      role: 'STUDENT',
       cohortId: null
     }
   })
-  console.log(userWithoutId)
   res.json({ data: userWithoutId })
 }
