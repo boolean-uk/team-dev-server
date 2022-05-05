@@ -185,4 +185,20 @@ export default class User {
 
     return foundUsers.map((user) => User.fromDb(user))
   }
+
+  static async findManyStudentsByCohort(cohortId) {
+    if (cohortId != null) {
+      cohortId = parseInt(cohortId)
+    }
+    const userWithoutCohortId = await dbClient.user.findMany({
+      where: {
+        role: 'STUDENT',
+        cohortId: cohortId
+      },
+      include: {
+        profile: true
+      }
+    })
+    return userWithoutCohortId.map((user) => User.fromDb(user))
+  }
 }
