@@ -201,4 +201,20 @@ export default class User {
     })
     return userWithoutCohortId.map((user) => User.fromDb(user))
   }
+
+  static async updateStudentByCohort(id, studentId) {
+    const addStudentToCohort = await dbClient.user.update({
+      where: {
+        id: studentId
+      },
+      data: {
+        cohortId: {
+          connect: {
+            cohortId: id
+          }
+        }
+      }
+    })
+    return addStudentToCohort.map((user) => User.fromDb(user))
+  }
 }
