@@ -61,10 +61,10 @@ export const getAll = async (req, res) => {
 export const updateById = async (req, res) => {
   try {
     if (
-      !req.body.firstName ||
-      !req.body.lastName ||
-      !req.body.bio ||
-      !req.body.githubUrl
+      req.body.firstName === undefined ||
+      req.body.lastName === undefined ||
+      req.body.bio === undefined ||
+      req.body.githubUrl === undefined
     ) {
       return sendMessageResponse(res, 400, 'Please update all details')
     } else {
@@ -77,6 +77,24 @@ export const updateById = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    return sendMessageResponse(res, 500, 'Unable to update user')
+  }
+}
+
+export const updateUserCohortById = async (req, res) => {
+  const { cohort_id: cohortId } = req.body
+  const { id } = req.params
+
+  if (!cohortId) {
+    return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
+  }
+
+  try {
+    const user = await User.findById(Number(id))
+    user.cohortId = Number(cohortId)
+    const updateUser = await user.update()
+    return sendDataResponse(res, 201, updateUser)
+  } catch (error) {
     return sendMessageResponse(res, 500, 'Unable to update user')
   }
 }
