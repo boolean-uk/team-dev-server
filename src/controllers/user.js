@@ -15,9 +15,10 @@ export const create = async (req, res) => {
       return sendDataResponse(res, 400, { email: 'invalid email address' })
     }
     const createdUser = await userToCreate.save()
+
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
-    return sendMessageResponse(res, 500, 'Unable to create new user')
+    return sendMessageResponse(res, 500, 'Server Error')
   }
 }
 
@@ -96,5 +97,21 @@ export const updateUserCohortById = async (req, res) => {
     return sendDataResponse(res, 201, updateUser)
   } catch (error) {
     return sendMessageResponse(res, 500, 'Unable to update user')
+  }
+}
+
+export const getStudents = async (req, res) => {
+  let { cohort: cohortid } = req.query
+  if (!cohortid) {
+    return sendDataResponse(res, 400, 'Query not found')
+  }
+  if (cohortid === 'None' || cohortid === 'none') {
+    cohortid = null
+  }
+  try {
+    const userWithoutCohortId = await User.findManyStudentsByCohort(cohortid)
+    return sendDataResponse(res, 200, userWithoutCohortId)
+  } catch (e) {
+    return sendMessageResponse(res, 500, 'Server Not Found')
   }
 }
