@@ -208,13 +208,13 @@ export default class User {
         id: studentId
       },
       data: {
-        cohortId: {
+        cohort: {
           connect: {
-            cohortId: id
+            id: parseInt(id)
           }
         }
       }
     })
-    return addStudentToCohort.map((user) => User.fromDb(user))
+    return addStudentToCohort
   }
 }

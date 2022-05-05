@@ -33,8 +33,8 @@ router.patch(
 )
 router.patch(
   '/student/cohort/:id',
-  // validateAuthentication,
-  // validateTeacherRole,
+  validateAuthentication,
+  validateTeacherRole,
   addUserToCohort
 )
 
