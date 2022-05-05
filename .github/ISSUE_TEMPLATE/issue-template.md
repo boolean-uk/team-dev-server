@@ -1,6 +1,6 @@
 ---
 name: Issue Template
-about: Describe this issue template's purpose here.
+about: Use this template for new devlopment tasks
 title: Task Desciption Here
 labels: ''
 assignees: ''
