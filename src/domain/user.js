@@ -26,7 +26,7 @@ export default class User {
   }
 
   static async fromJson(json) {
-    const { email, biography, password, role, profileImgUrl} = json
+    const { email, biography, password, role, profileImgUrl } = json
     const firstName = json.first_name
     const lastName = json.last_name
     const githubUrl = json.github_url
@@ -55,7 +55,7 @@ export default class User {
     githubUrl,
     passwordHash = null,
     role = 'STUDENT',
-    profileImgUrl = 'https://www.shareicon.net/data/256x256/2016/02/19/721756_people_512x512.png',
+    profileImgUrl = 'https://www.shareicon.net/data/256x256/2016/02/19/721756_people_512x512.png'
   ) {
     this.id = id
     this.cohortId = cohortId
@@ -80,7 +80,7 @@ export default class User {
         email: this.email,
         biography: this.bio,
         githubUrl: this.githubUrl,
-        profileImgUrl: this.profileImgUrl,
+        profileImgUrl: this.profileImgUrl
       }
     }
   }
@@ -129,7 +129,7 @@ export default class User {
             lastName: this.lastName,
             bio: this.bio,
             githubUrl: this.githubUrl,
-            profileImgUrl: this.profileImgUrl,
+            profileImgUrl: this.profileImgUrl
           }
         }
       },
