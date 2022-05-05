@@ -7,5 +7,5 @@ import {
 
 const router = Router()
 router.post('/', validateAuthentication, validateTeacherRole, create)
-router.get('/', getCohort)
+router.get('/', validateAuthentication, validateTeacherRole, getCohort)
 export default router
