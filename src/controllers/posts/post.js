@@ -47,6 +47,13 @@ export const getAll = async (req, res) => {
         postComments: {
           orderBy: {
             createdAt: 'desc'
+          },
+          include: {
+            user: {
+              include: {
+                profile: true
+              }
+            }
           }
         }
       },
