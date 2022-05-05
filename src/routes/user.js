@@ -4,7 +4,7 @@ import {
   getById,
   getAll,
   updateById,
-  getStudentWithoutCohort,
+  getStudents,
   updateUserCohortById
 } from '../controllers/user.js'
 import {
@@ -17,10 +17,10 @@ const router = Router()
 router.post('/', create)
 router.get('/', validateAuthentication, getAll)
 router.get(
-  '/studentWithoutCohort',
+  '/student?',
   validateAuthentication,
   validateTeacherRole,
-  getStudentWithoutCohort
+  getStudents
 )
 router.get('/:id', validateAuthentication, getById)
 router.put('/', validateAuthentication, updateById)

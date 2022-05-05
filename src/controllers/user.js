@@ -1,6 +1,6 @@
 import User from '../domain/user.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
-import dbClient from '../utils/dbClient.js'
+import validator from 'email-validator'
 
 export const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body)
@@ -11,7 +11,9 @@ export const create = async (req, res) => {
     if (existingUser) {
       return sendDataResponse(res, 400, { email: 'Email already in use' })
     }
-
+    if (!validator.validate(userToCreate.email)) {
+      return sendDataResponse(res, 400, { email: 'invalid email address' })
+    }
     const createdUser = await userToCreate.save()
 
     return sendDataResponse(res, 201, createdUser)
@@ -98,18 +100,17 @@ export const updateUserCohortById = async (req, res) => {
   }
 }
 
-export const getStudentWithoutCohort = async (req, res) => {
+export const getStudents = async (req, res) => {
+  let { cohort: cohortid } = req.query
+  if (!cohortid) {
+    return sendDataResponse(res, 400, 'Query not found')
+  }
+  if (cohortid === 'None' || cohortid === 'none') {
+    cohortid = null
+  }
   try {
-    const userWithoutId = await dbClient.user.findMany({
-      where: {
-        role: 'STUDENT',
-        cohortId: null
-      },
-      include: {
-        profile: true
-      }
-    })
-    return sendDataResponse(res, 201, userWithoutId)
+    const userWithoutCohortId = await User.findManyStudentsByCohort(cohortid)
+    return sendDataResponse(res, 200, userWithoutCohortId)
   } catch (e) {
     return sendMessageResponse(res, 500, 'Server Not Found')
   }
