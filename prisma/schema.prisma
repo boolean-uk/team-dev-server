@@ -31,13 +31,14 @@ model User {
 }
 
 model Profile {
-  id        Int     @id @default(autoincrement())
-  userId    Int     @unique
-  user      User    @relation(fields: [userId], references: [id])
-  firstName String
-  lastName  String
-  bio       String?
-  githubUrl String?
+  id              Int     @id @default(autoincrement())
+  userId          Int     @unique
+  user            User    @relation(fields: [userId], references: [id])
+  firstName       String
+  lastName        String
+  bio             String?
+  githubUrl       String?
+  profileImgUrl   String?
 }
 
 model Cohort {
