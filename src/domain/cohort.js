@@ -12,6 +12,12 @@ export async function createCohort() {
   return new Cohort(createdCohort.id)
 }
 
+export async function findCohorts() {
+  const allCohorts = await dbClient.cohort.findMany({})
+
+  return allCohorts
+}
+
 export class Cohort {
   constructor(id = null) {
     this.id = id
