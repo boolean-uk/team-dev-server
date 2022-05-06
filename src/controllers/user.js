@@ -115,21 +115,3 @@ export const getStudents = async (req, res) => {
     return sendMessageResponse(res, 500, 'Server Not Found')
   }
 }
-
-export const addUserToCohort = async (req, res) => {
-  const { student_Id: studentId } = JSON.parse(req.body.body)
-  const { id } = req.params
-  if (!id) {
-    return sendMessageResponse(res, 500, 'Cohort Not Found')
-  }
-  try {
-    const addedStudentToCohort = await User.updateStudentByCohort(id, studentId)
-    return sendDataResponse(
-      res,
-      200,
-      `Student ID:${addedStudentToCohort.id} successfully added to Cohort ID:${addedStudentToCohort.cohortId}`
-    )
-  } catch (e) {
-    return sendMessageResponse(res, 500, 'Server Not Found')
-  }
-}
