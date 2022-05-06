@@ -55,7 +55,7 @@ export default class User {
     githubUrl,
     passwordHash = null,
     role = 'STUDENT',
-    profileImgUrl = 'https://www.shareicon.net/data/256x256/2016/02/19/721756_people_512x512.png'
+    profileImgUrl = ''
   ) {
     this.id = id
     this.cohortId = cohortId
