@@ -55,7 +55,8 @@ export const getAll = async (req, res) => {
               }
             }
           }
-        }
+        },
+        postLike: true
       },
       orderBy: {
         createdAt: 'desc'
