@@ -32,6 +32,13 @@ export const createComment = async (req, res) => {
             id: req.user.id
           }
         }
+      },
+      include: {
+        user: {
+          include: {
+            profile: true
+          }
+        }
       }
     })
     return sendDataResponse(res, 201, { comment: createdComment })
