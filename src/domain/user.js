@@ -149,7 +149,7 @@ export default class User {
   }
 
   static async findManyByFirstName(firstName) {
-    return User._findMany('firstName', firstName)
+    return User._findMany('firstName', firstName, 'contains')
   }
 
   static async findAll() {
@@ -173,7 +173,7 @@ export default class User {
     return null
   }
 
-  static async _findMany(key, value) {
+  static async _findMany(key, value, type = 'equals') {
     const query = {
       include: {
         profile: true
@@ -183,7 +183,9 @@ export default class User {
     if (key !== undefined && value !== undefined) {
       query.where = {
         profile: {
-          [key]: {contains: value}
+          [key]: {
+            [type]: value
+          }
         }
       }
     }
