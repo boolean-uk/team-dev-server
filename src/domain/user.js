@@ -184,7 +184,8 @@ export default class User {
       query.where = {
         profile: {
           [key]: {
-            [type]: value
+            [type]: value,
+            mode: 'insensitive'
           }
         }
       }
