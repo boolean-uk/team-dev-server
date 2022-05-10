@@ -149,7 +149,7 @@ export default class User {
   }
 
   static async findManyByFirstName(firstName) {
-    return User._findMany('firstName', firstName, 'contains')
+    return User._findMany('firstName', firstName)
   }
 
   static async findAll() {

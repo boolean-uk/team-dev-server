@@ -45,7 +45,7 @@ export const getAll = async (req, res) => {
   let foundUsers
 
   if (firstName) {
-    foundUsers = await User.findManyByFirstName(firstName)
+    foundUsers = await User._findMany('firstName', firstName, 'contains')
   } else {
     foundUsers = await User.findAll()
   }
