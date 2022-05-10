@@ -11,7 +11,7 @@ export const likePost = async (req, res) => {
     if (!likeOnPost) {
       return sendDataResponse(res, 404, { error: 'Post not found' })
     }
-    await dbClient.postLike.create({
+    const like = await dbClient.postLike.create({
       data: {
         post: {
           connect: {
@@ -25,7 +25,7 @@ export const likePost = async (req, res) => {
         }
       }
     })
-    return sendDataResponse(res, 201, true)
+    return sendDataResponse(res, 201, like)
   } catch (e) {
     return sendDataResponse(res, 500, { error: e.message })
   }
