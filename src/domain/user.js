@@ -173,7 +173,7 @@ export default class User {
     return null
   }
 
-  static async _findMany(key, value) {
+  static async _findMany(key, value, type = 'equals') {
     const query = {
       include: {
         profile: true
@@ -183,7 +183,10 @@ export default class User {
     if (key !== undefined && value !== undefined) {
       query.where = {
         profile: {
-          [key]: value
+          [key]: {
+            [type]: value,
+            mode: 'insensitive'
+          }
         }
       }
     }
