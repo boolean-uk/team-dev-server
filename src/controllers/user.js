@@ -65,7 +65,8 @@ export const updateById = async (req, res) => {
       req.body.firstName === undefined ||
       req.body.lastName === undefined ||
       req.body.bio === undefined ||
-      req.body.githubUrl === undefined
+      req.body.githubUrl === undefined ||
+      req.body.profileImgUrl === undefined
     ) {
       return sendMessageResponse(res, 400, 'Please update all details')
     } else {
@@ -73,6 +74,7 @@ export const updateById = async (req, res) => {
       req.user.lastName = req.body.lastName
       req.user.bio = req.body.bio
       req.user.githubUrl = req.body.githubUrl
+      req.user.profileImgUrl = req.body.profileImgUrl
       const updatedUser = await req.user.update()
       return sendDataResponse(res, 201, updatedUser)
     }
