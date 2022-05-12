@@ -1,4 +1,4 @@
-import { createCohort, findCohorts } from '../domain/cohort.js'
+import { createCohort, findCohort, findCohorts } from '../domain/cohort.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
@@ -11,9 +11,15 @@ export const create = async (req, res) => {
 }
 
 export const getCohort = async (req, res) => {
+  const { id } = req.query
   try {
-    const getCohort = await findCohorts()
-    return sendDataResponse(res, 200, getCohort)
+    let cohortResult
+    if (id) {
+      cohortResult = await findCohort(id)
+    } else {
+      cohortResult = await findCohorts()
+    }
+    return sendDataResponse(res, 200, cohortResult)
   } catch (e) {
     return sendMessageResponse(res, 404, 'Cohorts not found')
   }

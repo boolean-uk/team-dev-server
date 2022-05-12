@@ -9,18 +9,25 @@ export async function createCohort(req) {
   const createdCohort = await dbClient.cohort.create({
     data: {
       cohortName: cohortName,
-      startDate: startDate,
-      endDate: endDate
+      startDate: new Date(startDate),
+      endDate: new Date(endDate)
     }
   })
-
   return new Cohort(createdCohort.id)
 }
 
 export async function findCohorts() {
   const allCohorts = await dbClient.cohort.findMany({})
-
   return allCohorts
+}
+
+export async function findCohort(id) {
+  const cohort = await dbClient.cohort.findUnique({
+    where: {
+      id: parseInt(id)
+    }
+  })
+  return cohort
 }
 
 export class Cohort {

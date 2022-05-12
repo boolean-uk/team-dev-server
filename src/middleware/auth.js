@@ -13,7 +13,6 @@ export async function validateTeacherRole(req, res, next) {
       authorization: 'You are not authorized to perform this action'
     })
   }
-
   next()
 }
 
