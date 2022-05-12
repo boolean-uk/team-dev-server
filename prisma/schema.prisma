@@ -31,25 +31,28 @@ model User {
 }
 
 model Profile {
-  id              Int     @id @default(autoincrement())
-  userId          Int     @unique
-  user            User    @relation(fields: [userId], references: [id])
-  firstName       String
-  lastName        String
-  bio             String?
-  githubUrl       String?
-  profileImgUrl   String?
+  id            Int     @id @default(autoincrement())
+  userId        Int     @unique
+  user          User    @relation(fields: [userId], references: [id])
+  firstName     String
+  lastName      String
+  bio           String?
+  githubUrl     String?
+  profileImgUrl String?
 }
 
 model Cohort {
   id           Int           @id @default(autoincrement())
+  cohortName   String?
+  startDate    DateTime?
+  endDate      DateTime?
   users        User[]
   deliveryLogs DeliveryLog[]
 }
 
 model Post {
   id           Int           @id @default(autoincrement())
-  content      String        
+  content      String
   userId       Int
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -62,9 +65,9 @@ model PostComment {
   id        Int      @id @default(autoincrement())
   content   String   @db.VarChar(150)
   user      User     @relation(fields: [userId], references: [id])
-  userId    Int      
+  userId    Int
   post      Post     @relation(fields: [postId], references: [id])
-  postId    Int      
+  postId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

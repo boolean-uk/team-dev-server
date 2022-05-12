@@ -105,7 +105,7 @@ export const getStudents = async (req, res) => {
   if (!cohortid) {
     return sendDataResponse(res, 400, 'Query not found')
   }
-  if (cohortid === 'None' || cohortid === 'none') {
+  if (cohortid === 'None' || cohortid === 'none' || cohortid === 'null') {
     cohortid = null
   }
   try {
