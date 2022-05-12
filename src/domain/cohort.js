@@ -4,9 +4,14 @@ import dbClient from '../utils/dbClient.js'
  * Create a new Cohort in the database
  * @returns {Cohort}
  */
-export async function createCohort() {
+export async function createCohort(req) {
+  const { cohortName, startDate, endDate } = req.body
   const createdCohort = await dbClient.cohort.create({
-    data: {}
+    data: {
+      cohortName: cohortName,
+      startDate: startDate,
+      endDate: endDate
+    }
   })
 
   return new Cohort(createdCohort.id)
