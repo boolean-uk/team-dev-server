@@ -19,7 +19,6 @@ router.get('/', validateAuthentication, getAll)
 router.get(
   '/student?',
   validateAuthentication,
-  validateTeacherRole,
   getStudents
 )
 router.get('/:id', validateAuthentication, getById)
