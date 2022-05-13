@@ -16,12 +16,7 @@ const router = Router()
 
 router.post('/', create)
 router.get('/', validateAuthentication, getAll)
-router.get(
-  '/student?',
-  validateAuthentication,
-  validateTeacherRole,
-  getStudents
-)
+router.get('/student', validateAuthentication, getStudents)
 router.get('/:id', validateAuthentication, getById)
 router.put('/', validateAuthentication, updateById)
 router.patch(
