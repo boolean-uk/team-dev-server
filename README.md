@@ -387,3 +387,4 @@ Authorization: Bearer &lt;token&gt;
 </details>
 
 Dan
+Edward Withers
