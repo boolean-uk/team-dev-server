@@ -364,3 +364,5 @@ Authorization: Bearer &lt;token&gt;
 }
 ```
 </details>
+
+Chris Hyde
