@@ -387,3 +387,5 @@ Authorization: Bearer &lt;token&gt;
 Tibor
 
 </details>
+
+Edward Withers
