@@ -365,4 +365,8 @@ Authorization: Bearer &lt;token&gt;
 ```
 </details>
 
+<<<<<<< HEAD
 Chris Hyde
+=======
+Edward Withers
+>>>>>>> main
