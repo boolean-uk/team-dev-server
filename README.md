@@ -386,10 +386,9 @@ Authorization: Bearer &lt;token&gt;
 
 </details>
 
-<<<<<<< HEAD
 Chris Hyde
-=======
 'Alex'
 Arisa Sigrist
 Edward Withers
->>>>>>> 6c3177d0a639f41253f83eff82535a00b62132ff
+Tibor
+David
