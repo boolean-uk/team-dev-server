@@ -387,5 +387,4 @@ Authorization: Bearer &lt;token&gt;
 </details>
 
 Arisa Sigrist here!
-Tibor
 Edward Withers
