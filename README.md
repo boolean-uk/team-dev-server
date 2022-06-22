@@ -1,7 +1,7 @@
 # Team Simulation - Server
 
 ## Setting up
-
+<!-- Line changed -->
 1. Copy `.env.example` and name it `.env`
 2. Create a postgres database and add its URL into the `DATABASE_URL` environment variable, keeping `?schema=prisma` on the end
     - Postgres db URLs are in the format: `postgres://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DATABASE_NAME]`
