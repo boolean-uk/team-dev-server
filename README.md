@@ -385,10 +385,7 @@ Authorization: Bearer &lt;token&gt;
 ```
 
 </details>
-<<<<<<< HEAD
 
 Arisa Sigrist here!
-=======
 Tibor
 Edward Withers
->>>>>>> main
