@@ -384,8 +384,6 @@ Authorization: Bearer &lt;token&gt;
 }
 ```
 
-<<<<<<< HEAD
-
 </details>
 Arisa Sigrist
 Edward Withers
