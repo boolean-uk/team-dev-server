@@ -387,3 +387,5 @@ Authorization: Bearer &lt;token&gt;
 </details>
 
 'Alex'
+Arisa Sigrist
+Edward Withers
