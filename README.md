@@ -385,6 +385,5 @@ Authorization: Bearer &lt;token&gt;
 ```
 
 </details>
-
-Arisa Sigrist here!
+Arisa Sigrist
 Edward Withers
