@@ -384,8 +384,6 @@ Authorization: Bearer &lt;token&gt;
 }
 ```
 
-Tibor
-
 </details>
-
+Tibor
 Edward Withers
