@@ -18,9 +18,7 @@ export const create = async (req, res) => {
 export const getAll = async (req, res) => {
   try {
     const posts = await Post.findAll()
-    console.log(posts)
     const data = { posts }
-    console.log('DATA:', data)
     return sendDataResponse(res, 200, data)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
