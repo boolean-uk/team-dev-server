@@ -20,18 +20,11 @@ export const create = async (req, res) => {
   }
 }
 export const getAll = async (req, res) => {
-  return sendDataResponse(res, 200, {
-    posts: [
-      {
-        id: 1,
-        content: 'Hello world!',
-        author: { ...req.user }
-      },
-      {
-        id: 2,
-        content: 'Hello from the void!',
-        author: { ...req.user }
-      }
-    ]
-  })
+  try {
+    const posts = await prisma.post.findMany({})
+    const data = { posts }
+    return sendDataResponse(res, 200, data)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
 }
