@@ -1,6 +1,5 @@
 import User from '../domain/user.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
-import dbClient from '../utils/dbClient.js'
 
 export const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body)
@@ -71,6 +70,9 @@ export const updateById = async (req, res) => {
 export const updateProfile = async (req, res) => {
   const newUserProfile = await User.fromJson(req.body)
   const userToUpdateId = Number(req.params.id)
+  newUserProfile.id = userToUpdateId
+
+  console.log('newUserProfile', newUserProfile)
 
   try {
     const existingUser = await User.findById(userToUpdateId)
@@ -80,21 +82,13 @@ export const updateProfile = async (req, res) => {
       return sendDataResponse(res, 400, { message: 'User does not exist' })
     }
 
-    const updatedProfile = await dbClient.profile.update({
-      where: {
-        id: userToUpdateId
-      },
-      data: {
-        firstName: newUserProfile.firstName,
-        lastName: newUserProfile.lastName,
-        bio: newUserProfile.bio,
-        githubUrl: newUserProfile.githubUrl
-      }
-    })
+    const updatedProfile = await newUserProfile.update()
+
     console.log('update user: ', updatedProfile)
 
     return res.json({ data: updatedProfile })
   } catch (error) {
+    console.error('error updating profile', error.message)
     return sendMessageResponse(res, 500, 'Unable to update new user')
   }
 }
