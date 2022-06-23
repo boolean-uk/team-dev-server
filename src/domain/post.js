@@ -6,10 +6,8 @@ export default class Post {
   }
 
   static async fromJson(json) {
-    const { content } = json[0]
-    const userId = json[1]
-    console.log(content, userId)
-    return new Post(content, userId)
+    const { content } = json
+    return new Post(content)
   }
 
   constructor(content, userId, id) {

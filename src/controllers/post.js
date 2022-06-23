@@ -7,10 +7,10 @@ export const create = async (req, res) => {
     return sendDataResponse(res, 400, { content: 'Must provide content' })
   }
   try {
-    const postToCreate = await Post.fromJson([req.body, req.user.id])
-
-    const posts = await postToCreate.save()
-    return sendDataResponse(res, 201, { ...posts })
+    const postToCreate = await Post.fromJson(req.body)
+    postToCreate.userId = req.user.id
+    const post = await postToCreate.save()
+    return sendDataResponse(res, 201, post)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
   }
