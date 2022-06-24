@@ -67,10 +67,10 @@ export const updateById = async (req, res) => {
   return sendDataResponse(res, 201, { user: { cohort_id: cohortId } })
 }
 
+// NEW //
 export const updateProfile = async (req, res) => {
   const newUserProfile = await User.fromJson(req.body)
   const userToUpdateId = Number(req.params.id)
-  console.log('73....................................')
   newUserProfile.id = userToUpdateId
 
   try {
@@ -81,8 +81,6 @@ export const updateProfile = async (req, res) => {
     }
 
     const updatedProfile = await newUserProfile.update()
-
-    console.log('update user: ', updatedProfile)
 
     return res.json({ data: updatedProfile })
   } catch (error) {
