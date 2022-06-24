@@ -72,19 +72,14 @@ export const updateProfile = async (req, res) => {
   const userToUpdateId = Number(req.params.id)
   newUserProfile.id = userToUpdateId
 
-  console.log('newUserProfile', newUserProfile)
-
   try {
     const existingUser = await User.findById(userToUpdateId)
-    console.log('do you exist?', existingUser)
 
     if (!existingUser) {
       return sendDataResponse(res, 400, { message: 'User does not exist' })
     }
 
     const updatedProfile = await newUserProfile.update()
-
-    console.log('update user: ', updatedProfile)
 
     return res.json({ data: updatedProfile })
   } catch (error) {
