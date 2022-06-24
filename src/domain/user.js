@@ -29,7 +29,10 @@ export default class User {
     const { first_name, last_name, email, biography, github_url, password } =
       json
 
-    const passwordHash = await bcrypt.hash(password, 8)
+    let passwordHash
+    if (password) {
+      passwordHash = await bcrypt.hash(password, 8)
+    }
 
     return new User(
       null,
@@ -51,7 +54,7 @@ export default class User {
     email,
     bio,
     githubUrl,
-    passwordHash = null,
+    passwordHash,
     role = 'STUDENT'
   ) {
     this.id = id
@@ -106,6 +109,33 @@ export default class User {
     })
 
     return User.fromDb(createdUser)
+  }
+
+  async update() {
+    const updatedUser = await dbClient.user.update({
+      where: {
+        id: this.id
+      },
+      data: {
+        email: this.email,
+        password: this.passwordHash,
+        cohortId: this.cohortId,
+        role: this.role,
+        profile: {
+          update: {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            bio: this.bio,
+            githubUrl: this.githubUrl
+          }
+        }
+      },
+      include: {
+        profile: true
+      }
+    })
+
+    return User.fromDb(updatedUser)
   }
 
   static async findByEmail(email) {

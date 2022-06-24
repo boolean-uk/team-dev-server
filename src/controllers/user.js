@@ -65,3 +65,25 @@ export const updateById = async (req, res) => {
 
   return sendDataResponse(res, 201, { user: { cohort_id: cohortId } })
 }
+
+// NEW //
+export const updateProfile = async (req, res) => {
+  const newUserProfile = await User.fromJson(req.body)
+  const userToUpdateId = Number(req.params.id)
+  newUserProfile.id = userToUpdateId
+
+  try {
+    const existingUser = await User.findById(userToUpdateId)
+
+    if (!existingUser) {
+      return sendDataResponse(res, 400, { message: 'User does not exist' })
+    }
+
+    const updatedProfile = await newUserProfile.update()
+
+    return res.json({ data: updatedProfile })
+  } catch (error) {
+    console.error('error updating profile', error.message)
+    return sendMessageResponse(res, 500, 'Unable to update new user')
+  }
+}
