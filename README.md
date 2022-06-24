@@ -365,4 +365,3 @@ Authorization: Bearer &lt;token&gt;
 ```
 
 </details>
-

@@ -17,53 +17,65 @@ enum Role {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  email         String    @unique
-  password      String
-  role          Role      @default(STUDENT)
-  profile       Profile?
-  cohortId      Int?
-  cohort        Cohort?   @relation(fields: [cohortId], references: [id])
-  posts         Post[]
-  deliveryLogs  DeliveryLog[]
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  role         Role          @default(STUDENT)
+  profile      Profile?
+  cohortId     Int?
+  cohort       Cohort?       @relation(fields: [cohortId], references: [id])
+  posts        Post[]
+  deliveryLogs DeliveryLog[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
 }
 
 model Profile {
-  id          Int       @id @default(autoincrement())
-  userId      Int       @unique
-  user        User      @relation(fields: [userId], references: [id])
-  firstName   String
-  lastName    String
-  bio         String?
-  githubUrl   String?
+  id        Int       @id @default(autoincrement())
+  userId    Int       @unique
+  user      User      @relation(fields: [userId], references: [id])
+  firstName String
+  lastName  String
+  bio       String?
+  githubUrl String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Cohort {
-  id            Int           @id @default(autoincrement())
-  users         User[]
-  deliveryLogs  DeliveryLog[]
+  id           Int           @id @default(autoincrement())
+  users        User[]
+  deliveryLogs DeliveryLog[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
 }
 
 model Post {
-  id      Int           @id @default(autoincrement())
-  content String
-  userId  Int
-  user    User          @relation(fields: [userId], references: [id])
+  id        Int       @id @default(autoincrement())
+  content   String
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model DeliveryLog {
-  id        Int           @id @default(autoincrement())
+  id        Int               @id @default(autoincrement())
   date      DateTime
   userId    Int
-  user      User          @relation(fields: [userId], references: [id])
+  user      User              @relation(fields: [userId], references: [id])
   cohortId  Int
-  cohort    Cohort        @relation(fields: [cohortId], references: [id])
+  cohort    Cohort            @relation(fields: [cohortId], references: [id])
   lines     DeliveryLogLine[]
+  createdAt DateTime          @default(now())
+  updatedAt DateTime?         @updatedAt
 }
 
 model DeliveryLogLine {
-  id        Int           @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   content   String
   logId     Int
-  log       DeliveryLog   @relation(fields: [logId], references: [id])
+  log       DeliveryLog @relation(fields: [logId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime?   @updatedAt
 }
