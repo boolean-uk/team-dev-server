@@ -27,7 +27,8 @@ model User {
   posts        Post[]
   deliveryLogs DeliveryLog[]
   createdAt    DateTime      @default(now())
-  updatedAt    DateTime?     @updatedAt
+  updatedAt    DateTime     @updatedAt
+  postComments PostComment[]
 }
 
 model Profile {
@@ -39,7 +40,8 @@ model Profile {
   bio       String?
   githubUrl String?
   createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  updatedAt DateTime @updatedAt
+  postComments PostComment[]
 }
 
 model Cohort {
@@ -47,7 +49,7 @@ model Cohort {
   users        User[]
   deliveryLogs DeliveryLog[]
   createdAt    DateTime      @default(now())
-  updatedAt    DateTime?     @updatedAt
+  updatedAt    DateTime     @updatedAt
 }
 
 model Post {
@@ -56,7 +58,21 @@ model Post {
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  updatedAt DateTime @updatedAt
+  postComments PostComment[]
+}
+
+model PostComment {
+  id        Int       @id @default(autoincrement())
+  content   String    @db.VarChar(150)
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  postId    Int
+  post      Post      @relation(fields: [postId], references: [id])
+  profileId    Int
+  profile      Profile      @relation(fields: [profileId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model DeliveryLog {
@@ -68,7 +84,7 @@ model DeliveryLog {
   cohort    Cohort            @relation(fields: [cohortId], references: [id])
   lines     DeliveryLogLine[]
   createdAt DateTime          @default(now())
-  updatedAt DateTime?         @updatedAt
+  updatedAt DateTime        @updatedAt
 }
 
 model DeliveryLogLine {
@@ -77,5 +93,5 @@ model DeliveryLogLine {
   logId     Int
   log       DeliveryLog @relation(fields: [logId], references: [id])
   createdAt DateTime    @default(now())
-  updatedAt DateTime?   @updatedAt
+  updatedAt DateTime   @updatedAt
 }

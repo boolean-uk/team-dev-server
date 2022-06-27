@@ -25,7 +25,6 @@ export default class Post {
         createdAt: this.createdAt
       }
     })
-
     return Post.fromDb(createdPost)
   }
 
