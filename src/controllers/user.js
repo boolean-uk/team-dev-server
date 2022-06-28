@@ -81,11 +81,11 @@ export const updateById = async (req, res) => {
       })
     }
 
-    const updatedProfile = await userToUpdate.update()
     userToUpdate.cohortId = cohortId
+    const updatedProfile = await userToUpdate.update()
 
     return sendDataResponse(res, 200, {
-      user: { cohort_id: updatedProfile.cohortId || null }
+      user: { cohort_id: updatedProfile.cohortId }
     })
   } catch (error) {
     console.error('error updating profile', error.message)
