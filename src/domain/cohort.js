@@ -21,9 +21,22 @@ export async function getCohorts() {
   return Cohorts
 }
 
-export class Cohort {
+export default class Cohort {
   constructor(id = null) {
     this.id = id
+  }
+
+  static async findCohortByID(id) {
+    const foundCohort = await dbClient.cohort.findUnique({
+      where: {
+        id: id
+      }
+    })
+
+    if (foundCohort) {
+      return Cohort.fromDb(foundCohort)
+    }
+    return null
   }
 
   toJSON() {
@@ -32,5 +45,9 @@ export class Cohort {
         id: this.id
       }
     }
+  }
+
+  static fromDb(cohort) {
+    return new Cohort(cohort.id)
   }
 }
