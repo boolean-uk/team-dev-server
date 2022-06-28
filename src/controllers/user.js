@@ -63,8 +63,6 @@ export const updateById = async (req, res) => {
   try {
     const userToUpdate = await User.findById(userToUpdateId)
     const foundCohort = await Cohort.findCohortByID(cohortId)
-    const updatedProfile = await userToUpdate.update()
-    userToUpdate.cohortId = cohortId
 
     if (!userToUpdate) {
       return sendDataResponse(res, 400, { message: 'User does not exist' })
@@ -82,7 +80,13 @@ export const updateById = async (req, res) => {
         message: 'Cohort could not be found'
       })
     }
-    return sendDataResponse(res, 200, { test: updatedProfile })
+
+    const updatedProfile = await userToUpdate.update()
+    userToUpdate.cohortId = cohortId
+
+    return sendDataResponse(res, 200, {
+      user: { cohort_id: updatedProfile.cohortId || null }
+    })
   } catch (error) {
     console.error('error updating profile', error.message)
     return sendMessageResponse(res, 500, 'Unable to communicate with database')
