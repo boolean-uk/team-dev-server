@@ -18,7 +18,6 @@ export const login = async (req, res) => {
     const areCredentialsValid = await validateCredentials(password, foundUser)
 
     if (!areCredentialsValid) {
-      console.log('PASSWORD DONT MACTH')
       return sendDataResponse(res, 400, {
         email: 'Invalid email and/or password provided'
       })
