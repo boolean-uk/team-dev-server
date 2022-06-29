@@ -11,6 +11,7 @@ export const create = async (req, res) => {
     const postToCreate = await Post.fromJson(req.body)
     postToCreate.userId = req.user.id
     const post = await postToCreate.save()
+
     return sendDataResponse(res, 201, post)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
@@ -30,6 +31,15 @@ export const createComment = async (req, res) => {
     commentToCreate.postId = postId
     const comment = await commentToCreate.save()
     return sendDataResponse(res, 201, comment)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
+}
+export const findAllComments = async (req, res) => {
+  try {
+    const comment = await Comment.findAll()
+    const data = { comment }
+    return sendDataResponse(res, 201, data)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
   }
