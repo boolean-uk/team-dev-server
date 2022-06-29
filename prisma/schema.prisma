@@ -45,7 +45,7 @@ model Profile {
 model Cohort {
   id           Int           @id @default(autoincrement())
   users        User[]
-  cohortName   String?
+  cohortName   String        @unique
   deliveryLogs DeliveryLog[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime?     @updatedAt
