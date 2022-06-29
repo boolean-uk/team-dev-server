@@ -31,11 +31,15 @@ export async function getCohorts() {
 
 export async function getCohort(id) {
   id = Number(id)
-  const Cohort = await dbClient.cohort.findUnique({
+  const cohort = await dbClient.cohort.findUnique({
     where: { id }
   })
 
-  return Cohort
+  if (cohort) {
+    return cohort
+  }
+
+  throw new Error()
 }
 
 export default class Cohort {
