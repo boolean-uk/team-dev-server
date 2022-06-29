@@ -32,7 +32,7 @@ export async function getCohorts() {
 export async function getCohort(id) {
   id = Number(id)
   const Cohort = await dbClient.cohort.findUnique({
-    where: {id }
+    where: { id }
   })
 
   return Cohort
