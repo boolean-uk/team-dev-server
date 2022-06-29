@@ -148,7 +148,13 @@ Authorization: Bearer &lt;token&gt;
 Authorization: Bearer &lt;token&gt;
 ```
 
-No body required
+<strong>Example body</strong>
+
+```sh
+{
+  "cohort_name": "Desperados"
+}
+```
 
 <strong>Example response</strong>
 
@@ -157,7 +163,8 @@ No body required
   "status": "success",
   "data": {
     "cohort": {
-      "id": 3
+      "id": 3,
+      "cohort_name": "Desperados"
     }
   }
 }
