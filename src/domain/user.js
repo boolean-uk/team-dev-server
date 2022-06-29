@@ -31,12 +31,16 @@ export default class User {
   static async fromJson(json) {
     // eslint-disable-next-line camelcase
     const {
+      // eslint-disable-next-line camelcase
       first_name,
+      // eslint-disable-next-line camelcase
       last_name,
       email,
       biography,
+      // eslint-disable-next-line camelcase
       github_url,
       password,
+      // eslint-disable-next-line camelcase
       profile_url
     } = json
 
@@ -48,11 +52,15 @@ export default class User {
     return new User(
       null,
       null,
+      // eslint-disable-next-line camelcase
       first_name,
+      // eslint-disable-next-line camelcase
       last_name,
       email,
       biography,
+      // eslint-disable-next-line camelcase
       github_url,
+      // eslint-disable-next-line camelcase
       profile_url || defaultProfileUrl,
       passwordHash
     )
