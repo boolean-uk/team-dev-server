@@ -5,7 +5,7 @@ import Comment from '../domain/comment.js'
 export const create = async (req, res) => {
   const { content } = req.body
   if (!content) {
-    return sendDataResponse(res, 400, { content: 'Must provide content' })
+    return sendDataResponse(res, 400, { err: 'Must provide content' })
   }
   try {
     const postToCreate = await Post.fromJson(req.body)
@@ -22,7 +22,7 @@ export const createComment = async (req, res) => {
   const postId = +req.query.postId
   const { content } = req.body
   if (!content) {
-    return sendDataResponse(res, 400, { content: 'Must provide content' })
+    return sendDataResponse(res, 400, { err: 'Must provide content' })
   }
   try {
     const commentToCreate = await Comment.fromJson(req.body)
@@ -38,6 +38,9 @@ export const createComment = async (req, res) => {
 export const findAllComments = async (req, res) => {
   try {
     const comment = await Comment.findAll()
+    if (comment.length === 0) {
+      throw new Error(`Comments not found`)
+    }
     const data = { comment }
     return sendDataResponse(res, 201, data)
   } catch (err) {
