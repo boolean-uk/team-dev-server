@@ -4,12 +4,20 @@ import dbClient from '../utils/dbClient.js'
  * Create a new Cohort in the database
  * @returns {Cohort}
  */
-export async function createCohort() {
-  const createdCohort = await dbClient.cohort.create({
-    data: {}
-  })
+export async function createCohort(cohortName) {
+  cohortName = String(cohortName)
 
-  return new Cohort(createdCohort.id)
+  let createdCohort
+
+  try {
+    createdCohort = await dbClient.cohort.create({
+      data: { cohortName: cohortName || '' }
+    })
+  } catch (e) {
+    return { error: e.message }
+  }
+
+  return new Cohort(createdCohort.id, cohortName)
 }
 
 /**
@@ -22,8 +30,9 @@ export async function getCohorts() {
 }
 
 export default class Cohort {
-  constructor(id = null) {
+  constructor(id = null, name) {
     this.id = id
+    this.name = name
   }
 
   static async findCohortByID(id) {
@@ -45,12 +54,13 @@ export default class Cohort {
   toJSON() {
     return {
       cohort: {
-        id: this.id
+        id: this.id,
+        cohort_name: this.name
       }
     }
   }
 
   static fromDb(cohort) {
-    return new Cohort(cohort.id)
+    return new Cohort(cohort.id, cohort.cohortName)
   }
 }
