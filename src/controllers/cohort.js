@@ -2,12 +2,14 @@ import { createCohort, getCohorts } from '../domain/cohort.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
+  const { cohort_name: cohortName } = req.body
+
   try {
-    const createdCohort = await createCohort()
+    const createdCohort = await createCohort(cohortName)
 
     return sendDataResponse(res, 201, createdCohort)
   } catch (e) {
-    return sendMessageResponse(res, 500, 'Unable to create cohort')
+    return sendMessageResponse(res, 500, e.message)
   }
 }
 
