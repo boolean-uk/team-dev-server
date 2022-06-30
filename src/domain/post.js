@@ -2,7 +2,13 @@ import dbClient from '../utils/dbClient.js'
 
 export default class Post {
   static fromDb(post) {
-    return new Post(post.content, post.userId, post.id, post.createdAt)
+    return new Post(
+      post.content,
+      post.userId,
+      post.id,
+      post.createdAt,
+      post.postComments
+    )
   }
 
   static async fromJson(json) {
@@ -10,11 +16,12 @@ export default class Post {
     return new Post(content)
   }
 
-  constructor(content, userId, id, createdAt) {
+  constructor(content, userId, id, createdAt, postComments) {
     this.userId = userId
     this.content = content
     this.id = id
     this.createdAt = createdAt
+    this.postComments = postComments
   }
 
   async save() {
@@ -25,7 +32,6 @@ export default class Post {
         createdAt: this.createdAt
       }
     })
-
     return Post.fromDb(createdPost)
   }
 
@@ -35,7 +41,8 @@ export default class Post {
 
   static async _findMany() {
     const foundPosts = await dbClient.post.findMany({
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      include: { postComments: { include: { profile: true } } }
     })
     return foundPosts.map((post) => Post.fromDb(post))
   }
