@@ -1,8 +1,8 @@
 import dbClient from '../utils/dbClient.js'
 
-export default class Comment {
+export default class PostComment {
   static fromDb(comment) {
-    return new Comment(
+    return new PostComment(
       comment.content,
       comment.userId,
       comment.id,
@@ -16,7 +16,7 @@ export default class Comment {
 
   static async fromJson(json) {
     const { content } = json
-    return new Comment(content)
+    return new PostComment(content)
   }
 
   constructor(
@@ -54,11 +54,11 @@ export default class Comment {
       firstName: createdComment.profile.firstName,
       lastName: createdComment.profile.lastName
     }
-    return Comment.fromDb(createdComment)
+    return PostComment.fromDb(createdComment)
   }
 
   static async findAll() {
-    return Comment._findMany()
+    return PostComment._findMany()
   }
 
   static async _findMany() {
@@ -71,7 +71,7 @@ export default class Comment {
         firstName: comment.profile.firstName,
         lastName: comment.profile.lastName
       }
-      return Comment.fromDb(comment)
+      return PostComment.fromDb(comment)
     })
   }
 }

@@ -1,13 +1,14 @@
 import { sendDataResponse } from '../utils/responses.js'
 import Post from '../domain/post.js'
-import Comment from '../domain/comment.js'
+import PostComment from '../domain/postComment.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
-  if (!content) {
-    return sendDataResponse(res, 400, { err: 'Must provide content' })
-  }
+
   try {
+    if (!content) {
+      throw new Error('Please provide content')
+    }
     const postToCreate = await Post.fromJson(req.body)
     postToCreate.userId = req.user.id
     const post = await postToCreate.save()
@@ -25,7 +26,7 @@ export const createComment = async (req, res) => {
     return sendDataResponse(res, 400, { err: 'Must provide content' })
   }
   try {
-    const commentToCreate = await Comment.fromJson(req.body)
+    const commentToCreate = await PostComment.fromJson(req.body)
     commentToCreate.userId = req.user.id
     commentToCreate.profileId = req.user.id
     commentToCreate.postId = postId
@@ -37,7 +38,7 @@ export const createComment = async (req, res) => {
 }
 export const findAllComments = async (req, res) => {
   try {
-    const comment = await Comment.findAll()
+    const comment = await PostComment.findAll()
     if (comment.length === 0) {
       throw new Error(`Comments not found`)
     }
@@ -51,6 +52,9 @@ export const findAllComments = async (req, res) => {
 export const getAll = async (req, res) => {
   try {
     const posts = await Post.findAll()
+    if (posts.length === 0) {
+      throw new Error(`Posts not found`)
+    }
     const data = { posts }
     return sendDataResponse(res, 200, data)
   } catch (err) {
