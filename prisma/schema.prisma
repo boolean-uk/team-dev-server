@@ -31,20 +31,22 @@ model User {
 }
 
 model Profile {
-  id        Int       @id @default(autoincrement())
-  userId    Int       @unique
-  user      User      @relation(fields: [userId], references: [id])
-  firstName String
-  lastName  String
-  bio       String?
-  githubUrl String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  id         Int       @id @default(autoincrement())
+  userId     Int       @unique
+  user       User      @relation(fields: [userId], references: [id])
+  firstName  String
+  lastName   String
+  bio        String?
+  profileUrl String?
+  githubUrl  String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
 }
 
 model Cohort {
   id           Int           @id @default(autoincrement())
   users        User[]
+  cohortName   String        @unique
   deliveryLogs DeliveryLog[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime?     @updatedAt
