@@ -32,14 +32,11 @@ export async function getCohorts() {
 export async function getCohort(id) {
   id = Number(id)
   const cohort = await dbClient.cohort.findUnique({
-    where: { id }
+    where: { id },
+    rejectOnNotFound: true
   })
 
-  if (cohort) {
-    return cohort
-  }
-
-  throw new Error()
+  return cohort
 }
 
 export default class Cohort {
