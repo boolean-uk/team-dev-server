@@ -29,6 +29,16 @@ export async function getCohorts() {
   return Cohorts
 }
 
+export async function getCohort(id) {
+  id = Number(id)
+  const cohort = await dbClient.cohort.findUnique({
+    where: { id },
+    rejectOnNotFound: true
+  })
+
+  return cohort
+}
+
 export default class Cohort {
   constructor(id = null, name) {
     this.id = id
