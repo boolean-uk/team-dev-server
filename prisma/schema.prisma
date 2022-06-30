@@ -37,7 +37,7 @@ model Profile {
   firstName  String
   lastName   String
   bio        String?
-  profileUrl String?
+  profileUrl String
   githubUrl  String?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
