@@ -1,6 +1,9 @@
 import dbClient from '../utils/dbClient.js'
 import bcrypt from 'bcrypt'
 
+const defaultProfileUrl =
+  'https://dottorato.dimes.unical.it/wp-content/uploads/2015/09/Unknown.jpg'
+
 export default class User {
   /**
    * This is JSDoc - a way for us to tell other developers what types functions/methods
@@ -19,6 +22,7 @@ export default class User {
       user.email,
       user.profile.bio,
       user.profile.githubUrl,
+      user.profile.profileUrl,
       user.password,
       user.role
     )
@@ -26,8 +30,19 @@ export default class User {
 
   static async fromJson(json) {
     // eslint-disable-next-line camelcase
-    const { first_name, last_name, email, biography, github_url, password } =
-      json
+    const {
+      // eslint-disable-next-line camelcase
+      first_name,
+      // eslint-disable-next-line camelcase
+      last_name,
+      email,
+      biography,
+      // eslint-disable-next-line camelcase
+      github_url,
+      password,
+      // eslint-disable-next-line camelcase
+      profile_url
+    } = json
 
     let passwordHash
     if (password) {
@@ -37,11 +52,16 @@ export default class User {
     return new User(
       null,
       null,
+      // eslint-disable-next-line camelcase
       first_name,
+      // eslint-disable-next-line camelcase
       last_name,
       email,
       biography,
+      // eslint-disable-next-line camelcase
       github_url,
+      // eslint-disable-next-line camelcase
+      profile_url || defaultProfileUrl,
       passwordHash
     )
   }
@@ -54,6 +74,7 @@ export default class User {
     email,
     bio,
     githubUrl,
+    profileUrl,
     passwordHash,
     role = 'STUDENT'
   ) {
@@ -64,6 +85,7 @@ export default class User {
     this.email = email
     this.bio = bio
     this.githubUrl = githubUrl
+    this.profileUrl = profileUrl
     this.passwordHash = passwordHash
     this.role = role
   }
@@ -78,7 +100,8 @@ export default class User {
         last_name: this.lastName,
         email: this.email,
         biography: this.bio,
-        github_url: this.githubUrl
+        github_url: this.githubUrl,
+        profile_url: this.profileUrl
       }
     }
   }
@@ -99,7 +122,8 @@ export default class User {
             firstName: this.firstName,
             lastName: this.lastName,
             bio: this.bio,
-            githubUrl: this.githubUrl
+            githubUrl: this.githubUrl,
+            profileUrl: this.profileUrl
           }
         }
       },
@@ -126,7 +150,8 @@ export default class User {
             firstName: this.firstName,
             lastName: this.lastName,
             bio: this.bio,
-            githubUrl: this.githubUrl
+            githubUrl: this.githubUrl,
+            profileUrl: this.profileUrl
           }
         }
       },
