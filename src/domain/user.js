@@ -172,7 +172,7 @@ export default class User {
   }
 
   static async findManyByFirstName(firstName) {
-    return User._findMany({ key: 'firstName', value: firstName})
+    return User._findMany({ key: 'firstName', value: firstName })
   }
 
   static async findAll({ whereData }) {
