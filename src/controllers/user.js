@@ -41,12 +41,17 @@ export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
   const { first_name: firstName } = req.query
 
+  let whereData = {}
+  if (req.query.hasOwnProperty('cohort')){
+    if(req.query.cohort === 'false'){ whereData.cohort = null }
+  }
+
   let foundUsers
 
   if (firstName) {
     foundUsers = await User.findManyByFirstName(firstName)
   } else {
-    foundUsers = await User.findAll()
+    foundUsers = await User.findAll({ whereData })
   }
 
   const formattedUsers = foundUsers.map((user) => {
