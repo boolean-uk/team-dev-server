@@ -1,8 +1,12 @@
 import User from '../domain/user.js'
 import Cohort from '../domain/cohort.js'
 import jwt from 'jsonwebtoken'
-import { JWT_EXPIRY, JWT_SECRET } from '../utils/responses.js'
-import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
+import {
+  JWT_EXPIRY,
+  JWT_SECRET,
+  sendDataResponse,
+  sendMessageResponse
+} from '../utils/responses.js'
 
 export const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body)
@@ -15,8 +19,10 @@ export const create = async (req, res) => {
     }
 
     const createdUser = await userToCreate.save()
+
     const token = generateJwt(createdUser.id)
-    return sendDataResponse(res, 200, { token, ...foundUser.toJSON() })
+
+    return sendDataResponse(res, 200, { token, ...createdUser.toJSON() })
   } catch (error) {
     console.error('something went wrong', error.message)
     return sendMessageResponse(res, 500, 'Unable to create new user')
