@@ -13,8 +13,8 @@ export const create = async (req, res) => {
     }
 
     const createdUser = await userToCreate.save()
-
-    return sendDataResponse(res, 201, createdUser)
+    const token = generateJwt(createdUser.id)
+    return sendDataResponse(res, 200, { token, ...foundUser.toJSON() })
   } catch (error) {
     console.error('something went wrong', error.message)
     return sendMessageResponse(res, 500, 'Unable to create new user')
