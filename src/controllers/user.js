@@ -1,5 +1,7 @@
 import User from '../domain/user.js'
 import Cohort from '../domain/cohort.js'
+import jwt from 'jsonwebtoken'
+import { JWT_EXPIRY, JWT_SECRET } from '../utils/responses.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
@@ -19,6 +21,10 @@ export const create = async (req, res) => {
     console.error('something went wrong', error.message)
     return sendMessageResponse(res, 500, 'Unable to create new user')
   }
+}
+
+function generateJwt(userId) {
+  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: JWT_EXPIRY })
 }
 
 export const getById = async (req, res) => {
