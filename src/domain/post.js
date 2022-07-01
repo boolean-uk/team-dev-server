@@ -7,7 +7,8 @@ export default class Post {
       post.userId,
       post.id,
       post.createdAt,
-      post.postComments
+      post.postComments,
+      post.edited
     )
   }
 
@@ -16,12 +17,13 @@ export default class Post {
     return new Post(content)
   }
 
-  constructor(content, userId, id, createdAt, postComments) {
+  constructor(content, userId, id, createdAt, postComments, edited) {
     this.userId = userId
     this.content = content
     this.id = id
     this.createdAt = createdAt
     this.postComments = postComments
+    this.edited = edited
   }
 
   async save() {
@@ -33,6 +35,19 @@ export default class Post {
       }
     })
     return Post.fromDb(createdPost)
+  }
+
+  async update() {
+    const updatedPost = await dbClient.post.update({
+      where: {
+        id: this.id
+      },
+      data: {
+        content: this.content,
+        edited: this.edited
+      }
+    })
+    return Post.fromDb(updatedPost)
   }
 
   static async findAll() {

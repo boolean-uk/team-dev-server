@@ -19,6 +19,22 @@ export const create = async (req, res) => {
   }
 }
 
+export const editPost = async (req, res) => {
+  const { content } = req.body
+  console.log(content)
+  const { id } = req.params
+
+  try {
+    const postToEdit = await Post.fromJson(req.body)
+    postToEdit.id = Number(id)
+    postToEdit.edited = true
+    const post = await postToEdit.update()
+    return sendDataResponse(res, 201, post)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
+}
+
 export const createComment = async (req, res) => {
   const postId = +req.query.postId
   const { content } = req.body
