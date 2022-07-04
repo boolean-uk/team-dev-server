@@ -7,9 +7,9 @@ import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 export const login = async (req, res) => {
   const { email, password } = req.body
 
-  if (!email) {
-    return sendDataResponse(res, 400, {
-      email: 'Invalid email and/or password provided'
+  if (!email || !password) {
+    return sendDataResponse(res, 401, {
+      email: 'Invalid email or/and password provided'
     })
   }
 
@@ -19,7 +19,7 @@ export const login = async (req, res) => {
 
     if (!areCredentialsValid) {
       return sendDataResponse(res, 401, {
-        email: 'Invalid username or password'
+        email: 'Invalid password provided'
       })
     }
 
