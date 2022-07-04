@@ -7,7 +7,9 @@ export default class Post {
       post.userId,
       post.id,
       post.createdAt,
-      post.postComments
+      post.postComments,
+      post.user,
+      post.profile
     )
   }
 
@@ -16,12 +18,14 @@ export default class Post {
     return new Post(content)
   }
 
-  constructor(content, userId, id, createdAt, postComments) {
+  constructor(content, userId, id, createdAt, postComments,user, profile) {
     this.userId = userId
     this.content = content
     this.id = id
     this.createdAt = createdAt
     this.postComments = postComments
+    this.user = user
+    this.profile = profile
   }
 
   async save() {
@@ -30,7 +34,8 @@ export default class Post {
         content: this.content,
         userId: this.userId,
         createdAt: this.createdAt
-      }
+      },
+      include: { user: { include: { profile: true } } }
     })
     return Post.fromDb(createdPost)
   }
