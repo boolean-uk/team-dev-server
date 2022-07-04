@@ -21,10 +21,7 @@ export const create = async (req, res) => {
 }
 
 export const editPost = async (req, res) => {
-  const { content } = req.body
-  console.log(content)
   const { id } = req.params
-
   try {
     const postToEdit = await Post.fromJson(req.body)
     postToEdit.id = Number(id)
