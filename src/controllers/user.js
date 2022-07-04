@@ -1,10 +1,8 @@
 import User from '../domain/user.js'
 
 import jwt from 'jsonwebtoken'
-
-import { JWT_EXPIRY, JWT_SECRET } from '../utils/config'
-
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
+import { JWT_EXPIRY, JWT_SECRET } from '../utils/config.js'
 
 export const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body)
@@ -49,11 +47,19 @@ export const getById = async (req, res) => {
 
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
-  const { first_name: firstName, cohort: inCohort } = req.query
+  const {
+    first_name: firstName,
+    cohort: inCohort,
+    cohort_id: cohortId
+  } = req.query
 
   const whereData = {}
   if (inCohort === 'false') {
     whereData.cohort = null
+  }
+
+  if (cohortId) {
+    whereData.cohortId = Number(cohortId)
   }
 
   let foundUsers
