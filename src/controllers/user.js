@@ -39,11 +39,19 @@ export const getById = async (req, res) => {
 
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
-  const { first_name: firstName, cohort: inCohort } = req.query
+  const {
+    first_name: firstName,
+    cohort: inCohort,
+    cohort_id: cohortId
+  } = req.query
 
   const whereData = {}
   if (inCohort === 'false') {
     whereData.cohort = null
+  }
+
+  if (cohortId) {
+    whereData.cohortId = Number(cohortId)
   }
 
   let foundUsers
