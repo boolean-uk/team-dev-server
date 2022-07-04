@@ -1,5 +1,9 @@
 import User from '../domain/user.js'
 
+import jwt from 'jsonwebtoken'
+
+import { JWT_EXPIRY, JWT_SECRET } from '../utils/config'
+
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
@@ -14,11 +18,17 @@ export const create = async (req, res) => {
 
     const createdUser = await userToCreate.save()
 
-    return sendDataResponse(res, 201, createdUser)
+    const token = generateJwt(createdUser.id)
+
+    return sendDataResponse(res, 200, { token, ...createdUser.toJSON() })
   } catch (error) {
     console.error('something went wrong', error.message)
     return sendMessageResponse(res, 500, 'Unable to create new user')
   }
+}
+
+function generateJwt(userId) {
+  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: JWT_EXPIRY })
 }
 
 export const getById = async (req, res) => {
@@ -39,14 +49,19 @@ export const getById = async (req, res) => {
 
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
-  const { first_name: firstName } = req.query
+  const { first_name: firstName, cohort: inCohort } = req.query
+
+  const whereData = {}
+  if (inCohort === 'false') {
+    whereData.cohort = null
+  }
 
   let foundUsers
 
   if (firstName) {
     foundUsers = await User.findManyByFirstName(firstName)
   } else {
-    foundUsers = await User.findAll()
+    foundUsers = await User.findAll({ whereData })
   }
 
   const formattedUsers = foundUsers.map((user) => {

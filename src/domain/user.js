@@ -172,11 +172,11 @@ export default class User {
   }
 
   static async findManyByFirstName(firstName) {
-    return User._findMany('firstName', firstName)
+    return User._findMany({ key: 'firstName', value: firstName })
   }
 
-  static async findAll() {
-    return User._findMany()
+  static async findAll({ whereData }) {
+    return User._findMany({ whereData })
   }
 
   static async _findByUnique(key, value) {
@@ -196,8 +196,9 @@ export default class User {
     return null
   }
 
-  static async _findMany(key, value) {
+  static async _findMany({ key, value, whereData }) {
     const query = {
+      where: { ...whereData },
       include: {
         profile: true
       }

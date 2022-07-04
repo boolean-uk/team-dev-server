@@ -33,6 +33,7 @@ export async function getCohort(id) {
   id = Number(id)
   const cohort = await dbClient.cohort.findUnique({
     where: { id },
+    include: { users: true },
     rejectOnNotFound: true
   })
 
