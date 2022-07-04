@@ -18,7 +18,7 @@ export default class Post {
     return new Post(content)
   }
 
-  constructor(content, userId, id, createdAt, postComments,user, profile) {
+  constructor(content, userId, id, createdAt, postComments, user, profile) {
     this.userId = userId
     this.content = content
     this.id = id
@@ -27,7 +27,7 @@ export default class Post {
     this.user = user
     this.profile = profile
   }
-
+    
   async save() {
     const createdPost = await dbClient.post.create({
       data: {
