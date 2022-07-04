@@ -19,7 +19,7 @@ export const login = async (req, res) => {
 
     if (!areCredentialsValid) {
       return sendDataResponse(res, 401, {
-        email: 'Invalid password provided'
+        email: 'Invalid email and/or password provided'
       })
     }
 
