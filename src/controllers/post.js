@@ -9,6 +9,7 @@ export const create = async (req, res) => {
     if (!content) {
       throw new Error('Please provide content')
     }
+
     const postToCreate = await Post.fromJson(req.body)
     postToCreate.userId = req.user.id
     const post = await postToCreate.save()
