@@ -27,7 +27,7 @@ export default class Post {
     this.user = user
     this.profile = profile
   }
-    
+
   async save() {
     const createdPost = await dbClient.post.create({
       data: {
