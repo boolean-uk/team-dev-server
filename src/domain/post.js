@@ -4,7 +4,6 @@ export default class Post {
   static fromDb(post) {
     return new Post(
       post.content,
-      post.userId,
       post.id,
       post.createdAt,
       post.postComments,
@@ -18,8 +17,7 @@ export default class Post {
     return new Post(content)
   }
 
-  constructor(content, userId, id, createdAt, postComments, user, profile) {
-    this.userId = userId
+  constructor(content, id, createdAt, postComments, user, profile) {
     this.content = content
     this.id = id
     this.createdAt = createdAt
