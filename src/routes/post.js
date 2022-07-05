@@ -4,7 +4,8 @@ import {
   getAll,
   createComment,
   findAllComments,
-  editPost
+  editPost,
+  deletePost
 } from '../controllers/post.js'
 import { validateAuthentication } from '../middleware/auth.js'
 
@@ -15,5 +16,6 @@ router.get('/', validateAuthentication, getAll)
 router.patch('/:id', validateAuthentication, editPost)
 router.post('/comment', validateAuthentication, createComment)
 router.get('/comment', validateAuthentication, findAllComments)
+router.delete('/posts/:id', validateAuthentication, deletePost)
 
 export default router

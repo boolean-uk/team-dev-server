@@ -4,11 +4,12 @@ export default class Post {
   static fromDb(post) {
     return new Post(
       post.content,
-      post.userId,
       post.id,
       post.createdAt,
       post.postComments,
-      post.edited
+      post.edited,
+      post.user,
+      post.profile
     )
   }
 
@@ -17,13 +18,14 @@ export default class Post {
     return new Post(content)
   }
 
-  constructor(content, userId, id, createdAt, postComments, edited) {
-    this.userId = userId
+  constructor(content, id, createdAt, postComments, edited, user, profile) {
     this.content = content
     this.id = id
     this.createdAt = createdAt
     this.postComments = postComments
     this.edited = edited
+    this.user = user
+    this.profile = profile
   }
 
   async save() {
@@ -32,8 +34,10 @@ export default class Post {
         content: this.content,
         userId: this.userId,
         createdAt: this.createdAt
-      }
+      },
+      include: { user: { include: { profile: true } } }
     })
+    console.log(createdPost)
     return Post.fromDb(createdPost)
   }
 
@@ -60,5 +64,13 @@ export default class Post {
       include: { postComments: { include: { profile: true } } }
     })
     return foundPosts.map((post) => Post.fromDb(post))
+  }
+
+  static async delete(foundId) {
+    await dbClient.post.delete({
+      where: {
+        id: foundId
+      }
+    })
   }
 }
