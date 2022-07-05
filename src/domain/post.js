@@ -44,7 +44,7 @@ export default class Post {
       },
       data: {
         content: this.content,
-        edited: this.edited || undefined
+        edited: this.edited && undefined
       }
     })
     return Post.fromDb(updatedPost)
