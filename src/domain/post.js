@@ -46,4 +46,12 @@ export default class Post {
     })
     return foundPosts.map((post) => Post.fromDb(post))
   }
+
+  static async delete(foundId) {
+    await dbClient.post.delete({
+      where: {
+        id: foundId
+      }
+    })
+  }
 }
