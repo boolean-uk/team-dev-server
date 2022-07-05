@@ -37,7 +37,6 @@ export default class Post {
       },
       include: { user: { include: { profile: true } } }
     })
-    console.log(createdPost)
     return Post.fromDb(createdPost)
   }
 
@@ -61,7 +60,10 @@ export default class Post {
   static async _findMany() {
     const foundPosts = await dbClient.post.findMany({
       orderBy: { createdAt: 'desc' },
-      include: { postComments: { include: { profile: true } } }
+      include: {
+        postComments: { include: { profile: true } },
+        user: { include: { profile: true } }
+      }
     })
     return foundPosts.map((post) => Post.fromDb(post))
   }
