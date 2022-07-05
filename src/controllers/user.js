@@ -1,5 +1,5 @@
 import User from '../domain/user.js'
-
+import Cohort from '../domain/cohort.js'
 import jwt from 'jsonwebtoken'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { JWT_EXPIRY, JWT_SECRET } from '../utils/config.js'
@@ -47,19 +47,11 @@ export const getById = async (req, res) => {
 
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
-  const {
-    first_name: firstName,
-    cohort: inCohort,
-    cohort_id: cohortId
-  } = req.query
+  const { first_name: firstName, cohort: inCohort } = req.query
 
   const whereData = {}
   if (inCohort === 'false') {
     whereData.cohort = null
-  }
-
-  if (cohortId) {
-    whereData.cohortId = Number(cohortId)
   }
 
   let foundUsers
@@ -81,12 +73,38 @@ export const getAll = async (req, res) => {
 
 export const updateById = async (req, res) => {
   const { cohort_id: cohortId } = req.body
+  const userToUpdateId = Number(req.params.id)
+  try {
+    const userToUpdate = await User.findById(userToUpdateId)
+    const foundCohort = await Cohort.findCohortByID(cohortId)
 
-  if (!cohortId) {
-    return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
+    if (!userToUpdate) {
+      return sendDataResponse(res, 400, { message: 'User does not exist' })
+    }
+    if (!cohortId) {
+      return sendDataResponse(res, 400, { message: 'Cohort ID is required' })
+    }
+    if (typeof cohortId !== 'number') {
+      return sendDataResponse(res, 400, {
+        message: 'Cohort ID must be a integer'
+      })
+    }
+    if (foundCohort === null) {
+      return sendDataResponse(res, 400, {
+        message: 'Cohort could not be found'
+      })
+    }
+
+    userToUpdate.cohortId = cohortId
+    const updatedProfile = await userToUpdate.update()
+
+    return sendDataResponse(res, 200, {
+      user: { cohort_id: updatedProfile.cohortId }
+    })
+  } catch (error) {
+    console.error('error updating profile', error.message)
+    return sendMessageResponse(res, 500, 'Unable to communicate with database')
   }
-
-  return sendDataResponse(res, 201, { user: { cohort_id: cohortId } })
 }
 
 // NEW //

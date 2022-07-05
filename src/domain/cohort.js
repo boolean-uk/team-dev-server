@@ -46,6 +46,22 @@ export default class Cohort {
     this.name = name
   }
 
+  static async findCohortByID(id) {
+    let foundCohort
+    if (typeof id === 'number') {
+      foundCohort = await dbClient.cohort.findUnique({
+        where: {
+          id: id
+        }
+      })
+    }
+
+    if (foundCohort) {
+      return Cohort.fromDb(foundCohort)
+    }
+    return null
+  }
+
   toJSON() {
     return {
       cohort: {

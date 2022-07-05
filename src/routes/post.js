@@ -14,6 +14,6 @@ router.post('/', validateAuthentication, create)
 router.get('/', validateAuthentication, getAll)
 router.post('/comment', validateAuthentication, createComment)
 router.get('/comment', validateAuthentication, findAllComments)
-router.delete('/post-delete/:id', validateAuthentication, deletePost)
+router.delete('/posts/:id', validateAuthentication, deletePost)
 
 export default router

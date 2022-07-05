@@ -64,8 +64,8 @@ export const getAll = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   const postId = +req.params.id
-  if (!postId) throw new Error('The ID you have provided is incorrect')
   try {
+    if (!postId) throw new Error('The ID you have provided is incorrect')
     const data = await Post.delete(postId)
     return sendDataResponse(res, 200, data)
   } catch (err) {
