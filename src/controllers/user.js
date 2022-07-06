@@ -1,5 +1,6 @@
 import User from '../domain/user.js'
 import Cohort from '../domain/cohort.js'
+import Note from '../domain/note.js'
 import jwt from 'jsonwebtoken'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { JWT_EXPIRY, JWT_SECRET } from '../utils/config.js'
@@ -115,7 +116,6 @@ export const updateById = async (req, res) => {
   }
 }
 
-// NEW //
 export const updateProfile = async (req, res) => {
   const newUserProfile = await User.fromJson(req.body)
   const userToUpdateId = Number(req.params.id)
@@ -134,5 +134,29 @@ export const updateProfile = async (req, res) => {
   } catch (error) {
     console.error('error updating profile', error.message)
     return sendMessageResponse(res, 500, 'Unable to update new user')
+  }
+}
+
+export const createNote = async (req, res) => {
+  const teacherId = req.user.id
+  const studentId = Number(req.params.id)
+  const { content, isEditted } = req.body
+  const newNoteData = {
+    teacherId,
+    studentId,
+    content,
+    isEditted
+  }
+
+  try {
+    if (!content) {
+      throw new Error('Please provide content')
+    }
+    const noteToCreate = await Note.fromJson(newNoteData)
+    const note = await noteToCreate.save()
+
+    return sendDataResponse(res, 201, note)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
   }
 }
