@@ -1,5 +1,6 @@
 import { createCohort, getCohorts, getCohort } from '../domain/cohort.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
+import User from '../domain/user.js'
 
 export const create = async (req, res) => {
   const { cohort_name: cohortName } = req.body
@@ -27,6 +28,11 @@ export const getCohortById = async (req, res) => {
 
   try {
     const cohort = await getCohort(id)
+
+    if (req.query.availableStudents === 'true') {
+      const students = await User.findAll({ whereData: { cohortId: null } })
+      cohort.availableStudents = students
+    }
 
     return sendDataResponse(res, 201, cohort)
   } catch (e) {
