@@ -31,6 +31,7 @@ model User {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   postComments   PostComment[]
+  postLikes      PostLike[]
 }
 
 model Note {
@@ -77,6 +78,18 @@ model Post {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   postComments PostComment[]
+  postLikes    PostLike[]
+}
+
+model PostLike {
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  postId       Int
+  post         Post          @relation(fields: [postId], references: [id])
+  active       Boolean       @default(false)
 }
 
 model PostComment {
