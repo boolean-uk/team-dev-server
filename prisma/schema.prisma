@@ -17,18 +17,32 @@ enum Role {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  email        String        @unique
-  password     String
-  role         Role          @default(STUDENT)
-  profile      Profile?
-  cohortId     Int?
-  cohort       Cohort?       @relation(fields: [cohortId], references: [id])
-  posts        Post[]
-  deliveryLogs DeliveryLog[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  postComments PostComment[]
+  id             Int           @id @default(autoincrement())
+  email          String        @unique
+  password       String
+  role           Role          @default(STUDENT)
+  profile        Profile?
+  cohortId       Int?
+  cohort         Cohort?       @relation(fields: [cohortId], references: [id])
+  posts          Post[]
+  deliveryLogs   DeliveryLog[]
+  notesByTeacher Note[]        @relation("TeacherNotes")
+  notes          Note[]        @relation("StudentNotes")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  postComments   PostComment[]
+}
+
+model Note {
+  id        Int      @id @default(autoincrement())
+  content   String
+  teacher   User     @relation(name: "TeacherNotes", fields: [teacherId], references: [id])
+  teacherId Int
+  student   User     @relation(name: "StudentNotes", fields: [studentId], references: [id])
+  studentId Int
+  isEditted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Profile {

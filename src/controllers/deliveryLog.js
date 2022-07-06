@@ -15,11 +15,10 @@ export const create = async (req, res) => {
   const deliveryLog = await deliveryLogToCreate.save()
 
   const deliveryLogLines = []
-  const postId = deliveryLog.id
 
   for (const line of lines) {
     const lineContent = line.content
-    const json = { content: lineContent, logId: postId }
+    const json = { content: lineContent, logId: deliveryLog.id }
     const newDeliveryLogLineData = await DeliveryLogLines.fromJson(json)
     deliveryLogLines.push(newDeliveryLogLineData)
   }

@@ -319,6 +319,8 @@ Authorization: Bearer &lt;token&gt;
 </summary>
 The <em>first_name</em> query parameter is optional and case sensitive
 
+The <em>cohort_id</em> query parameter is optional
+
 <strong>Headers</strong>
 
 ```sh
