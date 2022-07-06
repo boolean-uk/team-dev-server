@@ -40,7 +40,7 @@ model Note {
   teacherId Int
   student   User     @relation(name: "StudentNotes", fields: [studentId], references: [id])
   studentId Int
-  isEditted Boolean  @default(false)
+  isEdited  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -91,6 +91,7 @@ model PostComment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 model DeliveryLog {
   id        Int               @id @default(autoincrement())
   date      DateTime

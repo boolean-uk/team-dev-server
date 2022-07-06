@@ -39,4 +39,12 @@ export default class Note {
   static async findAll() {
     return Note._findMany()
   }
+
+  static async delete(foundId) {
+    await dbClient.Note.delete({
+      where: {
+        id: foundId
+      }
+    })
+  }
 }

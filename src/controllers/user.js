@@ -148,21 +148,28 @@ export const createNote = async (req, res) => {
     isEdited
   }
 
-  console.log('david is here ', req.user.role)
-
   try {
     if (!content) {
       throw new Error('Please provide content')
     }
-
     if (req.user.role !== 'TEACHER') {
-      throw new Error('Only teachers can add notes.')
+      throw new Error('You are not authorized to create a note')
     }
-
     const noteToCreate = await Note.fromJson(newNoteData)
     const note = await noteToCreate.save()
 
     return sendDataResponse(res, 201, note)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
+}
+
+export const deleteNote = async (req, res) => {
+  const noteId = Number(req.params.id)
+  try {
+    if (!noteId) throw new Error('The note does not exist')
+    const data = await Note.delete(noteId)
+    return sendDataResponse(res, 200, data)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
   }
