@@ -9,10 +9,23 @@ export const create = async (req, res) => {
     if (!content) {
       throw new Error('Please provide content')
     }
+
     const postToCreate = await Post.fromJson(req.body)
     postToCreate.userId = req.user.id
     const post = await postToCreate.save()
 
+    return sendDataResponse(res, 201, post)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
+}
+
+export const editPost = async (req, res) => {
+  const { id } = req.params
+  try {
+    const postToEdit = await Post.fromJson(req.body)
+    postToEdit.id = Number(id)
+    const post = await postToEdit.update()
     return sendDataResponse(res, 201, post)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })

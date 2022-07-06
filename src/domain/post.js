@@ -7,6 +7,7 @@ export default class Post {
       post.id,
       post.createdAt,
       post.postComments,
+      post.edited,
       post.user,
       post.profile
     )
@@ -17,11 +18,12 @@ export default class Post {
     return new Post(content)
   }
 
-  constructor(content, id, createdAt, postComments, user, profile) {
+  constructor(content, id, createdAt, postComments, edited, user, profile) {
     this.content = content
     this.id = id
     this.createdAt = createdAt
     this.postComments = postComments
+    this.edited = edited
     this.user = user
     this.profile = profile
   }
@@ -38,6 +40,23 @@ export default class Post {
     return Post.fromDb(createdPost)
   }
 
+  async update() {
+    const findPost = await dbClient.post.findUnique({
+      where: { id: this.id }
+    })
+
+    const updatedPost = await dbClient.post.update({
+      where: {
+        id: this.id
+      },
+      data: {
+        content: this.content,
+        edited: findPost.edited ? undefined : true
+      }
+    })
+    return Post.fromDb(updatedPost)
+  }
+
   static async findAll() {
     return Post._findMany()
   }
@@ -45,7 +64,10 @@ export default class Post {
   static async _findMany() {
     const foundPosts = await dbClient.post.findMany({
       orderBy: { createdAt: 'desc' },
-      include: { postComments: { include: { profile: true } } }
+      include: {
+        postComments: { include: { profile: true } },
+        user: { include: { profile: true } }
+      }
     })
     return foundPosts.map((post) => Post.fromDb(post))
   }
