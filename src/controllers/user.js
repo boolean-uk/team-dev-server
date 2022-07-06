@@ -140,18 +140,25 @@ export const updateProfile = async (req, res) => {
 export const createNote = async (req, res) => {
   const teacherId = req.user.id
   const studentId = Number(req.params.id)
-  const { content, isEditted } = req.body
+  const { content, isEdited } = req.body
   const newNoteData = {
     teacherId,
     studentId,
     content,
-    isEditted
+    isEdited
   }
+
+  console.log('david is here ', req.user.role)
 
   try {
     if (!content) {
       throw new Error('Please provide content')
     }
+
+    if (req.user.role !== 'TEACHER') {
+      throw new Error('Only teachers can add notes.')
+    }
+
     const noteToCreate = await Note.fromJson(newNoteData)
     const note = await noteToCreate.save()
 
