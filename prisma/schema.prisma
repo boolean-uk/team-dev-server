@@ -69,7 +69,6 @@ model Cohort {
 }
 
 model Post {
-
   id           Int           @id @default(autoincrement())
   content      String
   userId       Int
