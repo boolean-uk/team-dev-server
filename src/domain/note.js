@@ -80,4 +80,22 @@ export default class Note {
     })
     return Note.fromDb(foundNote)
   }
+
+  async update() {
+    const findNote = await dbClient.note.findUnique({
+      where: { id: this.id }
+    })
+    console.log(findNote)
+    const updatedNote = await dbClient.note.update({
+      where: {
+        id: this.id
+      },
+      data: {
+        content: this.content,
+        isEdited: findNote.isEdited ? undefined : true
+      }
+    })
+    console.log(updatedNote)
+    return Note.fromDb(updatedNote)
+  }
 }

@@ -213,3 +213,15 @@ export const getNoteById = async (req, res) => {
     return sendMessageResponse(res, 500, 'Unable to get note')
   }
 }
+
+export const updateNoteById = async (req, res) => {
+  const { id } = req.params
+  try {
+    const noteToEdit = await Note.fromJson(req.body)
+    noteToEdit.id = Number(id)
+    const note = await noteToEdit.update(noteToEdit.id)
+    return sendDataResponse(res, 201, note)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
+}
