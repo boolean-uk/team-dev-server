@@ -7,7 +7,7 @@ export const create = async (req, res) => {
   const userId = req.user.id
   const newDeliveryLogData = {
     date: new Date(date),
-    cohortId,
+    cohortId: Number(cohortId),
     userId
   }
 
