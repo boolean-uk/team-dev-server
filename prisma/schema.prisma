@@ -41,7 +41,7 @@ model Note {
   teacherId Int
   student   User     @relation(name: "StudentNotes", fields: [studentId], references: [id])
   studentId Int
-  isEditted Boolean  @default(false)
+  isEdited  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -65,6 +65,8 @@ model Cohort {
   users        User[]
   cohortName   String        @unique
   deliveryLogs DeliveryLog[]
+  startDate    DateTime     
+  endDate      DateTime
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }
@@ -104,6 +106,7 @@ model PostComment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 model DeliveryLog {
   id        Int               @id @default(autoincrement())
   date      DateTime

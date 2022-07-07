@@ -25,7 +25,6 @@ export const editPost = async (req, res) => {
   try {
     const postToEdit = await Post.fromJson(req.body)
     postToEdit.id = Number(id)
-    postToEdit.edited = true
     const post = await postToEdit.update()
     return sendDataResponse(res, 201, post)
   } catch (err) {

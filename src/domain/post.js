@@ -41,13 +41,17 @@ export default class Post {
   }
 
   async update() {
+    const findPost = await dbClient.post.findUnique({
+      where: { id: this.id }
+    })
+
     const updatedPost = await dbClient.post.update({
       where: {
         id: this.id
       },
       data: {
         content: this.content,
-        edited: this.edited && undefined
+        edited: findPost.edited ? undefined : true
       }
     })
     return Post.fromDb(updatedPost)

@@ -1,10 +1,11 @@
 import dbClient from '../utils/dbClient.js'
+import User from '../domain/user.js'
 
 /**
  * Create a new Cohort in the database
  * @returns {Cohort}
  */
-export async function createCohort(cohortName) {
+export async function createCohort(cohortName, startDate, endDate) {
   if (typeof cohortName !== 'string') {
     throw Error('cohortName must be of type String')
   }
@@ -14,10 +15,10 @@ export async function createCohort(cohortName) {
   }
 
   const createdCohort = await dbClient.cohort.create({
-    data: { cohortName }
+    data: { cohortName, startDate, endDate }
   })
 
-  return new Cohort(createdCohort.id, cohortName)
+  return new Cohort(createdCohort.id, cohortName, startDate, endDate)
 }
 
 /**
@@ -33,17 +34,21 @@ export async function getCohort(id) {
   id = Number(id)
   const cohort = await dbClient.cohort.findUnique({
     where: { id },
-    include: { users: true },
+    include: { users: { include: { profile: true } } },
     rejectOnNotFound: true
   })
+
+  cohort.users = cohort.users.map((user) => User.fromDb(user))
 
   return cohort
 }
 
 export default class Cohort {
-  constructor(id = null, name) {
+  constructor(id = null, name, startDate, endDate) {
     this.id = id
     this.name = name
+    this.startDate = startDate
+    this.endDate = endDate
   }
 
   static async findCohortByID(id) {
@@ -66,12 +71,19 @@ export default class Cohort {
     return {
       cohort: {
         id: this.id,
-        cohort_name: this.name
+        cohort_name: this.name,
+        start_date: this.startDate,
+        end_date: this.endDate
       }
     }
   }
 
   static fromDb(cohort) {
-    return new Cohort(cohort.id, cohort.cohortName)
+    return new Cohort(
+      cohort.id,
+      cohort.cohortName,
+      cohort.startDate,
+      cohort.endDate
+    )
   }
 }
