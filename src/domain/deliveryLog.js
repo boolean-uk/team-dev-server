@@ -2,14 +2,14 @@ import dbClient from '../utils/dbClient.js'
 
 export async function getDeliveryLogs() {
   const DeliveryLogs = await dbClient.DeliveryLog.findMany({
-    include: { 
-      user: { 
-        include: { 
-          profile: true 
-        } 
-      }, 
+    include: {
+      user: {
+        include: {
+          profile: true
+        }
+      },
       lines: true
-     }
+    }
   })
 
   return DeliveryLogs
@@ -19,13 +19,13 @@ export async function getDeliveryLog(id) {
   id = Number(id)
   const deliveryLog = await dbClient.DeliveryLog.findUnique({
     where: { id },
-    include: { 
-      user: { 
-        include: { 
-          profile: true 
-        } 
-      }, 
-      lines: true 
+    include: {
+      user: {
+        include: {
+          profile: true
+        }
+      },
+      lines: true
     },
     rejectOnNotFound: true
   })
