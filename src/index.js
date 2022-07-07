@@ -5,6 +5,7 @@ import userRouter from './routes/user.js'
 import postRouter from './routes/post.js'
 import authRouter from './routes/auth.js'
 import cohortRouter from './routes/cohort.js'
+import noteRouter from './routes/note.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
 
 const app = express()
@@ -19,6 +20,7 @@ app.use('/post', postRouter)
 app.use('/posts', postRouter)
 app.use('/cohort', cohortRouter)
 app.use('/log', deliveryLogRouter)
+app.use('/note', noteRouter)
 app.use('/', authRouter)
 
 app.get('*', (req, res) => {
