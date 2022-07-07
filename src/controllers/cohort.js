@@ -3,13 +3,25 @@ import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import User from '../domain/user.js'
 
 export const create = async (req, res) => {
-  const { cohort_name: cohortName } = req.body
+  const {
+    cohort_name: cohortName,
+    start_date: startDate,
+    end_date: endDate
+  } = req.body
+
+  const startDateFormatted = new Date(startDate)
+  const endDateFormatted = new Date(endDate)
+
   try {
-    const createdCohort = await createCohort(cohortName)
+    const createdCohort = await createCohort(
+      cohortName,
+      startDateFormatted,
+      endDateFormatted
+    )
 
     return sendDataResponse(res, 201, createdCohort)
   } catch (e) {
-    return sendMessageResponse(res, 500, 'Unable to create cohort')
+    return sendMessageResponse(res, 500, e.message)
   }
 }
 
