@@ -41,7 +41,7 @@ export default class PostLike {
           id: this.id
         },
         data: {
-          active: this.active === 'true' ? false : true
+          active: this.active !== 'true'
         }
       })
       return PostLike.fromDb(updatedPost)
