@@ -1,4 +1,5 @@
 import dbClient from '../utils/dbClient.js'
+import User from '../domain/user.js'
 
 /**
  * Create a new Cohort in the database
@@ -36,6 +37,8 @@ export async function getCohort(id) {
     include: { users: { include: { profile: true } } },
     rejectOnNotFound: true
   })
+
+  cohort.users = cohort.users.map((user) => User.fromDb(user))
 
   return cohort
 }
