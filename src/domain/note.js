@@ -76,16 +76,17 @@ export default class Note {
     const foundNote = await dbClient.Note.findUnique({
       where: {
         id: noteId
-      }
+      },
+      rejectOnNotFound: true
     })
     return Note.fromDb(foundNote)
   }
 
   async update() {
     const findNote = await dbClient.note.findUnique({
-      where: { id: this.id }
+      where: { id: this.id },
+      rejectOnNotFound: true
     })
-    console.log(findNote)
     const updatedNote = await dbClient.note.update({
       where: {
         id: this.id
@@ -95,7 +96,6 @@ export default class Note {
         isEdited: findNote.isEdited ? undefined : true
       }
     })
-    console.log(updatedNote)
     return Note.fromDb(updatedNote)
   }
 }

@@ -183,10 +183,6 @@ export const getAllNotes = async (req, res) => {
   try {
     const foundNotes = await Note.findAll({ whereData })
 
-    if (foundNotes.length === 0) {
-      return sendDataResponse(res, 404, { err: 'Notes or/and user not found' })
-    }
-
     const formattedNotes = foundNotes.map((note) => {
       return {
         ...note.toJSON().note
@@ -204,9 +200,6 @@ export const getNoteById = async (req, res) => {
 
   try {
     const foundNote = await Note.findById(noteId)
-    if (!foundNote) {
-      return sendDataResponse(res, 404, { error: 'Note not found' })
-    }
 
     return sendDataResponse(res, 200, foundNote)
   } catch (e) {
@@ -219,7 +212,7 @@ export const updateNoteById = async (req, res) => {
   try {
     const noteToEdit = await Note.fromJson(req.body)
     noteToEdit.id = Number(id)
-    const note = await noteToEdit.update(noteToEdit.id)
+    const note = await noteToEdit.update()
     return sendDataResponse(res, 201, note)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
