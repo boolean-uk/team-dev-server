@@ -1,5 +1,8 @@
-import { sendDataResponse } from '../utils/responses.js'
-import DeliveryLog from '../domain/deliveryLog.js'
+import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
+import DeliveryLog, {
+  getDeliveryLogs,
+  getDeliveryLog
+} from '../domain/deliveryLog.js'
 import DeliveryLogLines from '../domain/deliveryLogLines.js'
 
 export const create = async (req, res) => {
@@ -21,4 +24,26 @@ export const create = async (req, res) => {
   })
 
   return sendDataResponse(res, 201, { deliveryLog })
+}
+
+export const deliveryLogs = async (req, res) => {
+  try {
+    const deliveryLogs = await getDeliveryLogs()
+
+    return sendDataResponse(res, 201, deliveryLogs)
+  } catch (e) {
+    return sendMessageResponse(res, 500, e.message)
+  }
+}
+
+export const deliveryLogById = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const deliveryLog = await getDeliveryLog(id)
+
+    return sendDataResponse(res, 201, deliveryLog)
+  } catch (e) {
+    return sendMessageResponse(res, 500, e.message)
+  }
 }
