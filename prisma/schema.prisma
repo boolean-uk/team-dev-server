@@ -77,7 +77,7 @@ model CohortExercise {
   url         String
   createdAt   DateTime       @default(now())
   updatedAt   DateTime
-  submissions  Submission[]  
+  submissions Submission[]  
 }
 
 model Submission {
