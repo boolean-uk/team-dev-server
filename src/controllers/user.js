@@ -174,3 +174,42 @@ export const deleteNote = async (req, res) => {
     return sendDataResponse(res, 400, { err: err.message })
   }
 }
+
+export const getAllNotes = async (req, res) => {
+  const userId = Number(req.params.id)
+  const whereData = {}
+  whereData.studentId = userId
+
+  try {
+    const foundNotes = await Note.findAll({ whereData })
+
+    if (foundNotes.length === 0) {
+      return sendDataResponse(res, 404, { err: 'Notes or/and user not found' })
+    }
+
+    const formattedNotes = foundNotes.map((note) => {
+      return {
+        ...note.toJSON().note
+      }
+    })
+
+    return sendDataResponse(res, 200, { notes: formattedNotes })
+  } catch (e) {
+    return sendMessageResponse(res, 500, 'Unable to get notes')
+  }
+}
+
+export const getNoteById = async (req, res) => {
+  const noteId = Number(req.params.id)
+
+  try {
+    const foundNote = await Note.findById(noteId)
+    if (!foundNote) {
+      return sendDataResponse(res, 404, { error: 'Note not found' })
+    }
+
+    return sendDataResponse(res, 200, foundNote)
+  } catch (e) {
+    return sendMessageResponse(res, 500, 'Unable to get note')
+  }
+}

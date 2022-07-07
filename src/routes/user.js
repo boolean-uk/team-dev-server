@@ -6,7 +6,9 @@ import {
   updateById,
   updateProfile,
   createNote,
-  deleteNote
+  deleteNote,
+  getAllNotes,
+  getNoteById
 } from '../controllers/user.js'
 import {
   validateAuthentication,
@@ -22,4 +24,7 @@ router.patch('/:id', validateAuthentication, validateTeacherRole, updateById)
 router.patch('/update/:id', validateAuthentication, updateProfile)
 router.post('/:id/note', validateAuthentication, createNote)
 router.delete('/notes/:id', validateAuthentication, deleteNote)
+router.get('/:id/notes', validateAuthentication, getAllNotes)
+router.get('/notes/:id', validateAuthentication, getNoteById)
+
 export default router

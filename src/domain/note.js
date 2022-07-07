@@ -36,8 +36,16 @@ export default class Note {
     return Note.fromDb(createdNote)
   }
 
-  static async findAll() {
-    return Note._findMany()
+  static async findAll({ whereData }) {
+    return Note._findMany({ whereData })
+  }
+
+  static async _findMany({ whereData }) {
+    const foundNotes = await dbClient.Note.findMany({
+      orderBy: { createdAt: 'desc' },
+      where: { ...whereData }
+    })
+    return foundNotes.map((note) => Note.fromDb(note))
   }
 
   static async delete(foundId) {
@@ -46,5 +54,30 @@ export default class Note {
         id: foundId
       }
     })
+  }
+
+  toJSON() {
+    return {
+      note: {
+        id: this.id,
+        content: this.content,
+        teacherId: this.teacherId,
+        studentId: this.studentId,
+        isEdited: this.isEdited
+      }
+    }
+  }
+
+  static async findById(noteId) {
+    return Note._findUnique(noteId)
+  }
+
+  static async _findUnique(noteId) {
+    const foundNote = await dbClient.Note.findUnique({
+      where: {
+        id: noteId
+      }
+    })
+    return Note.fromDb(foundNote)
   }
 }
