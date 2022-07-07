@@ -1,6 +1,7 @@
 import { sendDataResponse } from '../utils/responses.js'
 import Post from '../domain/post.js'
 import PostComment from '../domain/postComment.js'
+import PostLike from '../domain/postLike.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
@@ -81,6 +82,27 @@ export const deletePost = async (req, res) => {
     if (!postId) throw new Error('The ID you have provided is incorrect')
     const data = await Post.delete(postId)
     return sendDataResponse(res, 200, data)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
+}
+
+export const updateLike = async (req, res) => {
+  const postId = Number(req.params.id)
+  let { active, postLikeId } = req.body
+  postLikeId = Number(postLikeId)
+  const userId = Number(req.query.userId)
+
+  try {
+    if (!postId) throw new Error('The ID you have provided is incorrect')
+    const updateLike = await PostLike.fromJson(
+      active,
+      userId,
+      postId,
+      postLikeId
+    )
+    const newLike = await updateLike.upsertLike()
+    return sendDataResponse(res, 200, newLike)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
   }
