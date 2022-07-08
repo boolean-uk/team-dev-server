@@ -60,14 +60,15 @@ model Profile {
 }
 
 model Cohort {
-  id           Int           @id @default(autoincrement())
-  users        User[]
-  cohortName   String        @unique
-  deliveryLogs DeliveryLog[]
-  startDate    DateTime     
-  endDate      DateTime
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id              Int              @id @default(autoincrement())
+  users           User[]
+  cohortName      String           @unique
+  deliveryLogs    DeliveryLog[]
+  CohortExercises CohortExercise[]
+  startDate       DateTime
+  endDate         DateTime
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 }
 
 model Post {
@@ -113,4 +114,53 @@ model DeliveryLogLine {
   log       DeliveryLog @relation(fields: [logId], references: [id])
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+}
+
+model Course {
+  id         Int      @id @default(autoincrement())
+  courseName String   @unique
+  modules    Module[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Module {
+  id         Int      @id @default(autoincrement())
+  moduleName String   @unique
+  Course     Course?  @relation(fields: [courseId], references: [id])
+  courseId   Int?
+  units      Unit[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Unit {
+  id        Int        @id @default(autoincrement())
+  unitName  String     @unique
+  Module    Module?    @relation(fields: [moduleId], references: [id])
+  moduleId  Int?
+  exercises Exercise[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Exercise {
+  id              Int              @id @default(autoincrement())
+  exerciseName    String           @unique
+  githubUrl       String
+  Unit            Unit?            @relation(fields: [unitId], references: [id])
+  unitId          Int?
+  cohortExercises CohortExercise[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model CohortExercise {
+  id         Int       @id @default(autoincrement())
+  Cohort     Cohort?   @relation(fields: [cohortId], references: [id])
+  cohortId   Int?
+  Exercise   Exercise? @relation(fields: [exerciseId], references: [id])
+  exerciseId Int?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
