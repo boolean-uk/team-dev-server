@@ -31,8 +31,11 @@ model User {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   postComments   PostComment[]
+<<<<<<< HEAD
   postLikes      PostLike[]
   submissions  Submission[]  
+=======
+>>>>>>> main
 }
 
 model Note {
@@ -70,25 +73,6 @@ model Cohort {
   endDate      DateTime
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-}
-
-model CohortExercise {
-  id           Int           @id @default(autoincrement())
-  name        String        
-  url         String
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime
-  submissions Submission[]  
-}
-
-model Submission {
-  id                 Int             @id @default(autoincrement())
-  cohortExerciseId   Int
-  cohortExercise     CohortExercise  @relation(fields: [cohortExerciseId], references: [id])        
-  userId             Int
-  user               User            @relation(fields: [userId], references: [id])        
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime     
 }
 
 model Post {
