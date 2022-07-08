@@ -40,7 +40,6 @@ export default class Post {
   }
 
   async save() {
-    console.log('SAVE')
     const createdPost = await dbClient.post.create({
       data: {
         content: this.content,
@@ -49,7 +48,6 @@ export default class Post {
       },
       include: { user: { include: { profile: true } }, postLikes: true }
     })
-    console.log(createdPost)
     return Post.fromDb(createdPost)
   }
 
