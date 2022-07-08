@@ -31,11 +31,7 @@ model User {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   postComments   PostComment[]
-<<<<<<< HEAD
   postLikes      PostLike[]
-  submissions  Submission[]  
-=======
->>>>>>> main
 }
 
 model Note {
