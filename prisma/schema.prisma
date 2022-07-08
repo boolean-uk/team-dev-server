@@ -64,7 +64,7 @@ model Cohort {
   users        User[]
   cohortName   String        @unique
   deliveryLogs DeliveryLog[]
-  startDate    DateTime     
+  startDate    DateTime
   endDate      DateTime
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
