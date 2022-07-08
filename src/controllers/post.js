@@ -1,6 +1,7 @@
 import { sendDataResponse } from '../utils/responses.js'
 import Post from '../domain/post.js'
 import PostComment from '../domain/postComment.js'
+import PostLike from '../domain/postLike.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
@@ -9,11 +10,10 @@ export const create = async (req, res) => {
     if (!content) {
       throw new Error('Please provide content')
     }
-
     const postToCreate = await Post.fromJson(req.body)
     postToCreate.userId = req.user.id
-    const post = await postToCreate.save()
 
+    const post = await postToCreate.save()
     return sendDataResponse(res, 201, post)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
@@ -81,6 +81,24 @@ export const deletePost = async (req, res) => {
     if (!postId) throw new Error('The ID you have provided is incorrect')
     const data = await Post.delete(postId)
     return sendDataResponse(res, 200, data)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
+}
+
+export const updateLike = async (req, res) => {
+  const postId = Number(req.params.id)
+  const { active, postLikeId, userId } = req.body
+  try {
+    if (!postId) throw new Error('The ID you have provided is incorrect')
+    const updateLike = await PostLike.fromJson(
+      active,
+      Number(userId),
+      postId,
+      Number(postLikeId)
+    )
+    const newLike = await updateLike.upsertLike()
+    return sendDataResponse(res, 200, newLike)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
   }
