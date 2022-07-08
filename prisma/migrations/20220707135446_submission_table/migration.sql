@@ -5,8 +5,8 @@
 
 */
 -- AlterTable
-ALTER TABLE "Note" DROP COLUMN "isEditted",
-ADD COLUMN     "isEdited" BOOLEAN NOT NULL DEFAULT false;
+-- ALTER TABLE "Note" DROP COLUMN "isEditted",
+-- ADD COLUMN     "isEdited" BOOLEAN NOT NULL DEFAULT false;
 
 -- CreateTable
 CREATE TABLE "CohortExercise" (
