@@ -31,6 +31,7 @@ model User {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   postComments   PostComment[]
+  postLikes PostLike[]
 }
 
 model Note {
@@ -57,6 +58,7 @@ model Profile {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   postComments PostComment[]
+  
 }
 
 model Cohort {
@@ -75,10 +77,23 @@ model Post {
   content      String
   edited       Boolean       @default(false)
   userId       Int
-  user         User          @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id], onDelete:Cascade) 
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   postComments PostComment[]
+  postLikes    PostLike[]
+}
+
+
+model PostLike {
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  postId       Int
+  post         Post          @relation(fields: [postId], references: [id], onDelete:Cascade)
+  active       Boolean       @default(false)
 }
 
 model PostComment {
@@ -87,7 +102,7 @@ model PostComment {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   postId    Int
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete:Cascade)
   profileId Int
   profile   Profile  @relation(fields: [profileId], references: [id])
   createdAt DateTime @default(now())
