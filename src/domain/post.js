@@ -9,7 +9,8 @@ export default class Post {
       post.postComments,
       post.edited,
       post.user,
-      post.profile
+      post.profile,
+      post.postLikes
     )
   }
 
@@ -18,7 +19,16 @@ export default class Post {
     return new Post(content)
   }
 
-  constructor(content, id, createdAt, postComments, edited, user, profile) {
+  constructor(
+    content,
+    id,
+    createdAt,
+    postComments,
+    edited,
+    user,
+    profile,
+    postLikes
+  ) {
     this.content = content
     this.id = id
     this.createdAt = createdAt
@@ -26,6 +36,7 @@ export default class Post {
     this.edited = edited
     this.user = user
     this.profile = profile
+    this.postLikes = postLikes
   }
 
   async save() {
@@ -35,7 +46,7 @@ export default class Post {
         userId: this.userId,
         createdAt: this.createdAt
       },
-      include: { user: { include: { profile: true } } }
+      include: { user: { include: { profile: true } }, postLikes: true }
     })
     return Post.fromDb(createdPost)
   }
@@ -66,7 +77,8 @@ export default class Post {
       orderBy: { createdAt: 'desc' },
       include: {
         postComments: { include: { profile: true } },
-        user: { include: { profile: true } }
+        user: { include: { profile: true } },
+        postLikes: true
       }
     })
     return foundPosts.map((post) => Post.fromDb(post))
