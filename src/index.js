@@ -22,6 +22,7 @@ app.use('/cohort', cohortRouter)
 app.use('/log', deliveryLogRouter)
 app.use('/note', noteRouter)
 app.use('/', authRouter)
+app.use('/messages', messagesRouter)
 
 app.get('*', (req, res) => {
   res.status(404).json({
