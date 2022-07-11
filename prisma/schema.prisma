@@ -32,7 +32,7 @@ model User {
   updatedAt      DateTime      @updatedAt
   postComments   PostComment[]
   postLikes      PostLike[]
-  submissions    Submission[]  
+  submissions    Submission[]
 }
 
 model Note {
@@ -59,37 +59,19 @@ model Profile {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   postComments PostComment[]
-  
+
 }
 
 model Cohort {
-  id           Int           @id @default(autoincrement())
-  users        User[]
-  cohortName   String        @unique
-  deliveryLogs DeliveryLog[]
-  startDate    DateTime     
-  endDate      DateTime
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-}
-
-model CohortExercise {
-  id          Int            @id @default(autoincrement())
-  name        String        
-  url         String
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime
-  submissions Submission[]  
-}
-
-model Submission {
-  id                 Int             @id @default(autoincrement())
-  cohortExerciseId   Int
-  cohortExercise     CohortExercise  @relation(fields: [cohortExerciseId], references: [id])        
-  userId             Int
-  user               User            @relation(fields: [userId], references: [id])        
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime     
+  id              Int              @id @default(autoincrement())
+  users           User[]
+  cohortName      String           @unique
+  deliveryLogs    DeliveryLog[]
+  CohortExercises CohortExercise[]
+  startDate       DateTime
+  endDate         DateTime
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 }
 
 model Post {
@@ -97,23 +79,22 @@ model Post {
   content      String
   edited       Boolean       @default(false)
   userId       Int
-  user         User          @relation(fields: [userId], references: [id], onDelete:Cascade) 
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   postComments PostComment[]
   postLikes    PostLike[]
 }
 
-
 model PostLike {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  userId       Int
-  user         User          @relation(fields: [userId], references: [id])
-  postId       Int
-  post         Post          @relation(fields: [postId], references: [id], onDelete:Cascade)
-  active       Boolean       @default(false)
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  active    Boolean  @default(false)
 }
 
 model PostComment {
@@ -122,7 +103,7 @@ model PostComment {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   postId    Int
-  post      Post     @relation(fields: [postId], references: [id], onDelete:Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   profileId Int
   profile   Profile  @relation(fields: [profileId], references: [id])
   createdAt DateTime @default(now())
@@ -148,4 +129,64 @@ model DeliveryLogLine {
   log       DeliveryLog @relation(fields: [logId], references: [id])
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+}
+
+model Course {
+  id         Int      @id @default(autoincrement())
+  courseName String   @unique
+  modules    Module[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Module {
+  id         Int      @id @default(autoincrement())
+  moduleName String   @unique
+  Course     Course?  @relation(fields: [courseId], references: [id])
+  courseId   Int?
+  units      Unit[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Unit {
+  id        Int        @id @default(autoincrement())
+  unitName  String     @unique
+  Module    Module?    @relation(fields: [moduleId], references: [id])
+  moduleId  Int?
+  exercises Exercise[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Exercise {
+  id              Int              @id @default(autoincrement())
+  exerciseName    String           @unique
+  githubUrl       String
+  Unit            Unit?            @relation(fields: [unitId], references: [id])
+  unitId          Int?
+  cohortExercises CohortExercise[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model CohortExercise {
+  id          Int          @id @default(autoincrement())
+  Cohort      Cohort?      @relation(fields: [cohortId], references: [id])
+  cohortId    Int?
+  Exercise    Exercise?    @relation(fields: [exerciseId], references: [id])
+  exerciseId  Int?
+  submissions Submission[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Submission {
+  id               Int            @id @default(autoincrement())
+  cohortExerciseId Int
+  cohortExercise   CohortExercise @relation(fields: [cohortExerciseId], references: [id])
+  userId           Int
+  user             User           @relation(fields: [userId], references: [id])
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime
 }
