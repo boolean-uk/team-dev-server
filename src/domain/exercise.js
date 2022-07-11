@@ -1,6 +1,6 @@
 import dbClient from '../utils/dbClient.js'
 
-export async function createExercise(exerciseName, githubUrl) {
+export async function createExercise(exerciseName, githubUrl, unitId) {
   if (typeof exerciseName !== 'string') {
     throw Error('Exercise Name must be of type String')
   }
@@ -10,18 +10,16 @@ export async function createExercise(exerciseName, githubUrl) {
   }
 
   const createdExercise = await dbClient.exercise.create({
-    data: { exerciseName, githubUrl }
+    data: { exerciseName, githubUrl, unitId }
   })
 
-  return new Exercise(createdExercise.id, exerciseName, githubUrl)
+  return new Exercise(createdExercise.id, exerciseName, githubUrl, unitId)
 }
 
 export async function getExercises() {
-  const Exercises = await dbClient.exercise.findMany({
-    // include: { cohortExercises: true }
-  })
+  const exercises = await dbClient.exercise.findMany({})
 
-  return Exercises
+  return exercises
 }
 
 export async function getExercise(id) {
@@ -36,10 +34,11 @@ export async function getExercise(id) {
 }
 
 export default class Exercise {
-  constructor(id = null, name, githubUrl) {
+  constructor(id = null, name, githubUrl, unitId) {
     this.id = id
     this.name = name
     this.githubUrl = githubUrl
+    this.unitId = unitId
   }
 
   static async findExerciseByID(id) {
@@ -63,12 +62,18 @@ export default class Exercise {
       exercise: {
         id: this.id,
         cohort_name: this.name,
-        github_url: this.githubUrl
+        github_url: this.githubUrl,
+        unit_Id: this.unitId
       }
     }
   }
 
   static fromDb(exercise) {
-    return new Exercise(exercise.id, exercise.exerciseName, exercise.githubUrl)
+    return new Exercise(
+      exercise.id,
+      exercise.exerciseName,
+      exercise.githubUrl,
+      exercise.unitId
+    )
   }
 }
