@@ -36,7 +36,6 @@ export default class PostLike {
       })
       return PostLike.fromDb(createLike)
     } else {
-      console.log(this)
       const updatedPost = await dbClient.postLike.update({
         where: {
           id: this.id
@@ -45,7 +44,7 @@ export default class PostLike {
           active: !this.active
         }
       })
-      console.log(updatedPost)
+
       return PostLike.fromDb(updatedPost)
     }
   }
