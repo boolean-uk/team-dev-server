@@ -7,21 +7,41 @@ export default class Note {
       note.teacherId,
       note.studentId,
       note.isEdited,
-      note.id
+      note.id,
+      note.createdAt,
+      note.updatedAt
     )
   }
 
   static async fromJson(json) {
-    const { content, teacherId, studentId, isEdited } = json
-    return new Note(content, teacherId, studentId, isEdited)
+    const { content, teacherId, studentId, isEdited, createdAt, updatedAt } =
+      json
+    return new Note(
+      content,
+      teacherId,
+      studentId,
+      isEdited,
+      createdAt,
+      updatedAt
+    )
   }
 
-  constructor(content, teacherId, studentId, isEdited, id) {
+  constructor(
+    content,
+    teacherId,
+    studentId,
+    isEdited,
+    id,
+    createdAt,
+    updatedAt
+  ) {
     this.content = content
     this.teacherId = teacherId
     this.studentId = studentId
     this.isEdited = isEdited
     this.id = id
+    this.createdAt = createdAt
+    this.updatedAt = updatedAt
   }
 
   async save() {
@@ -30,7 +50,9 @@ export default class Note {
         content: this.content,
         teacherId: this.teacherId,
         studentId: this.studentId,
-        isEdited: this.isEdited
+        isEdited: this.isEdited,
+        createdAt: this.createdAt,
+        updatedAt: this.updatedAt
       }
     })
     return Note.fromDb(createdNote)
@@ -63,7 +85,9 @@ export default class Note {
         content: this.content,
         teacherId: this.teacherId,
         studentId: this.studentId,
-        isEdited: this.isEdited
+        isEdited: this.isEdited,
+        createdAt: this.createdAt,
+        updatedAt: this.updatedAt
       }
     }
   }
