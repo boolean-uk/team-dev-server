@@ -362,6 +362,63 @@ Authorization: Bearer &lt;token&gt;
 </details>
 
 <details>
+<summary><strong>GET /courses</strong>
+</summary>
+
+<strong>Headers</strong>
+
+```sh
+Authorization: Bearer &lt;token&gt;
+```
+
+<strong>Example response</strong>
+
+```sh
+{
+ "status": "success",
+ "data": [
+  {
+   "id": 4,
+   "courseName": "Web Development",
+   "createdAt": "2022-07-08T14:59:35.467Z",
+   "updatedAt": "2022-07-08T11:31:07.143Z",
+   "modules": [
+    {
+     "id": 1,
+     "moduleName": "Javascript Basics",
+     "courseId": 4,
+     "createdAt": "2022-07-08T15:06:38.837Z",
+     "updatedAt": "2022-07-08T11:31:07.143Z",
+     "units": [
+      {
+       "id": 1,
+       "unitName": "Arrays Fundamentals",
+       "moduleId": 1,
+       "createdAt": "2022-07-08T15:07:59.535Z",
+       "updatedAt": "2022-07-08T11:31:07.143Z",
+       "exercises": [
+        {
+         "id": 4,
+         "exerciseName": "Fruity Loops",
+         "githubUrl": "https://github.com/hopping",
+         "unitId": 1,
+         "createdAt": "2022-07-08T15:10:26.783Z",
+         "updatedAt": "2022-07-08T11:31:07.143Z"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
+```
+
+</details>
+
+
+<details>
 <summary><strong>PATCH /user/:id</strong>
  (hardcoded responses)</summary>
 <em>Only auth tokens for users with the TEACHER role can use this route</em>
