@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { validateAuthentication } from '../middleware/auth.js'
 import { createConversation } from '../controllers/conversation.js'
+import { validateAuthentication } from '../middleware/auth.js'
 
 const router = Router()
 
-router.post('/', validateAuthentication, createConversation)
+router.post('/conversation', validateAuthentication, createConversation)
 
 export default router

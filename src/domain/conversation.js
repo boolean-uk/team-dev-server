@@ -1,18 +1,15 @@
-import dbClient from '../utils/dbClient'
+import dbClient from '../utils/dbClient.js'
 
 export default class Conversation {
   static fromDb(conversation) {
     return new Conversation(
       conversation.name,
       conversation.createdBy,
+      conversation.usersIds,
       conversation.id,
-
-      conversation.messages,
       conversation.createdAt,
       conversation.updatedAt,
-      conversation.users,
-
-      conversation.messages
+      conversation.users
     )
   }
 
@@ -21,31 +18,37 @@ export default class Conversation {
     return new Conversation(name, createdBy, usersIds)
   }
 
-  constructor(name, createdBy, id, messages, createdAt, updatedAt, users) {
+  constructor(name, createdBy, usersIds, id, createdAt, updatedAt, users) {
     this.name = name
     this.createdBy = createdBy
+    this.usersIds = usersIds
     this.id = id
 
-    this.messages = messages
     this.createdAt = createdAt
     this.updatedAt = updatedAt
     this.users = users
   }
 
   async save() {
-    const createdConversation = await dbClient.post.create({
+    console.log('THIS : ', this)
+    const createdConversation = await dbClient.conversation.create({
       data: {
         name: this.name,
         createdBy: this.createdBy,
-        userIds: this.userIds,
-        messages: {
-          create: [
-            {
-              createdBy: this.createdBy,
-              content: this.content
+        users: {
+          create: this.usersIds.map((id) => {
+            return {
+              user: {
+                connect: {
+                  id: id
+                }
+              }
             }
-          ]
+          })
         }
+      },
+      include: {
+        users: true
       }
     })
 
