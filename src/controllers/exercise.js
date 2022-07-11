@@ -6,10 +6,18 @@ import {
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
-  const { exercise_name: exerciseName, github_url: githubUrl } = req.body
+  const {
+    exercise_name: exerciseName,
+    github_url: githubUrl,
+    unit_id: unitId
+  } = req.body
 
   try {
-    const createdExercise = await createExercise(exerciseName, githubUrl)
+    const createdExercise = await createExercise(
+      exerciseName,
+      githubUrl,
+      unitId
+    )
 
     return sendDataResponse(res, 201, createdExercise)
   } catch (e) {

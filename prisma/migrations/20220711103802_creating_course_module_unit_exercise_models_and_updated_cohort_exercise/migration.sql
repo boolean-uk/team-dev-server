@@ -1,3 +1,16 @@
+/*
+  Warnings:
+
+  - You are about to drop the column `name` on the `CohortExercise` table. All the data in the column will be lost.
+  - You are about to drop the column `url` on the `CohortExercise` table. All the data in the column will be lost.
+
+*/
+-- AlterTable
+ALTER TABLE "CohortExercise" DROP COLUMN "name",
+DROP COLUMN "url",
+ADD COLUMN     "cohortId" INTEGER,
+ADD COLUMN     "exerciseId" INTEGER;
+
 -- CreateTable
 CREATE TABLE "Course" (
     "id" SERIAL NOT NULL,
@@ -40,17 +53,6 @@ CREATE TABLE "Exercise" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Exercise_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "CohortExercise" (
-    "id" SERIAL NOT NULL,
-    "cohortId" INTEGER,
-    "exerciseId" INTEGER,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "CohortExercise_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
