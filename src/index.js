@@ -7,6 +7,7 @@ import authRouter from './routes/auth.js'
 import cohortRouter from './routes/cohort.js'
 import noteRouter from './routes/note.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
+import messagesRouter from './routes/conversation'
 
 const app = express()
 app.disable('x-powered-by')
@@ -22,7 +23,7 @@ app.use('/cohort', cohortRouter)
 app.use('/log', deliveryLogRouter)
 app.use('/note', noteRouter)
 app.use('/', authRouter)
-// app.use('/messages', messagesRouter)
+app.use('/messages', messagesRouter)
 
 app.get('*', (req, res) => {
   res.status(404).json({
