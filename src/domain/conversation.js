@@ -37,9 +37,16 @@ export default class Conversation {
       data: {
         name: this.name,
         createdBy: this.createdBy,
-        userIds: this.userIds
-      },
-      include: { messages: true }
+        userIds: this.userIds,
+        messages: {
+          create: [
+            {
+              createdBy: this.createdBy,
+              content: this.content
+            }
+          ]
+        }
+      }
     })
 
     return Conversation.fromDb(createdConversation)
