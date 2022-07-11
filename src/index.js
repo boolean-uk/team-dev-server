@@ -6,6 +6,8 @@ import postRouter from './routes/post.js'
 import authRouter from './routes/auth.js'
 import cohortRouter from './routes/cohort.js'
 import noteRouter from './routes/note.js'
+import exerciseRouter from './routes/exercise.js'
+import courseRouter from './routes/course.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
 import conversationRouter from './routes/conversation.js'
 
@@ -23,7 +25,12 @@ app.use('/cohort', cohortRouter)
 app.use('/log', deliveryLogRouter)
 app.use('/note', noteRouter)
 app.use('/', authRouter)
+<<<<<<< HEAD
 app.use('/messages', conversationRouter)
+=======
+app.use('/exercises', exerciseRouter)
+app.use('/courses', courseRouter)
+>>>>>>> main
 
 app.get('*', (req, res) => {
   res.status(404).json({
