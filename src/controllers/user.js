@@ -1,7 +1,6 @@
 import User from '../domain/user.js'
 import Cohort from '../domain/cohort.js'
 import Note from '../domain/note.js'
-import CohortExercise from '../domain/cohortExercise.js'
 import jwt from 'jsonwebtoken'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { JWT_EXPIRY, JWT_SECRET } from '../utils/config.js'
@@ -217,25 +216,5 @@ export const updateNoteById = async (req, res) => {
     return sendDataResponse(res, 201, note)
   } catch (err) {
     return sendDataResponse(res, 400, { err: err.message })
-  }
-}
-
-export const getAllExercise = async (req, res) => {
-  const cohortId = Number(req.params.id)
-  const whereData = {}
-  whereData.cohortId = cohortId
-
-  try {
-    const foundExercise = await CohortExercise.findAll({ whereData })
-
-    const formattedExercise = foundExercise.map((exercise) => {
-      return {
-        ...exercise.toJSON().exercise
-      }
-    })
-
-    return sendDataResponse(res, 200, { notes: formattedExercise })
-  } catch (e) {
-    return sendMessageResponse(res, 500, 'Unable to get exercise')
   }
 }
