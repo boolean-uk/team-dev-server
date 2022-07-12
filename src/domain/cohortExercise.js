@@ -2,15 +2,20 @@ import dbClient from '../utils/dbClient.js'
 
 export default class CohortExercise {
   static fromDb(exercise) {
-    return new CohortExercise(exercise.exerciseId, exercise.cohortId)
+    return new CohortExercise(
+      exercise.id,
+      exercise.exerciseId,
+      exercise.cohortId
+    )
   }
 
   static async fromJson(json) {
-    const { exerciseId, cohortId } = json
-    return new CohortExercise(exerciseId, cohortId)
+    const { id, exerciseId, cohortId } = json
+    return new CohortExercise(id, exerciseId, cohortId)
   }
 
-  constructor(exerciseId, cohortId) {
+  constructor(id, exerciseId, cohortId) {
+    this.id = id
     this.exerciseId = exerciseId
     this.cohortId = cohortId
   }
@@ -48,7 +53,8 @@ export default class CohortExercise {
   toJSON() {
     return {
       exercise: {
-        exerciseId: this.id,
+        id: this.id,
+        exerciseId: this.exerciseId,
         cohortId: this.cohortId
       }
     }

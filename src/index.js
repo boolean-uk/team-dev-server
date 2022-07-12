@@ -9,7 +9,6 @@ import noteRouter from './routes/note.js'
 import exerciseRouter from './routes/exercise.js'
 import courseRouter from './routes/course.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
-import cohortExercise from './routes/cohortExercise.js'
 
 const app = express()
 app.disable('x-powered-by')
@@ -27,7 +26,6 @@ app.use('/note', noteRouter)
 app.use('/', authRouter)
 app.use('/exercises', exerciseRouter)
 app.use('/courses', courseRouter)
-app.use('/cohortExercise', cohortExercise)
 
 app.get('*', (req, res) => {
   res.status(404).json({

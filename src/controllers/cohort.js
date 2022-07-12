@@ -1,5 +1,5 @@
 import { createCohort, getCohorts, getCohort } from '../domain/cohort.js'
-import { CohortExercise } from '../domain/cohortExercise.js'
+import CohortExercise from '../domain/cohortExercise.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import User from '../domain/user.js'
 
@@ -66,8 +66,7 @@ export const getAllCohortExercises = async (req, res) => {
         ...exercise.toJSON().exercise
       }
     })
-    // console.log('formattedExercise : ',formattedExercise)
-    return sendDataResponse(res, 200, { notes: formattedExercise })
+    return sendDataResponse(res, 200, { cohortExercises: formattedExercise })
   } catch (e) {
     return sendMessageResponse(res, 500, 'Unable to get exercise')
   }

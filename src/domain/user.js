@@ -216,21 +216,4 @@ export default class User {
 
     return foundUsers.map((user) => User.fromDb(user))
   }
-
-//   static async submit(key, value) {
-//     const foundUser = await dbClient.user.findUnique({
-//       where: {
-//         [key]: value
-//       },
-//       include: {
-//         profile: true
-//       }
-//     })
-
-//     if (foundUser) {
-//       return User.fromDb(foundUser)
-//     }
-
-//     return null
-//   }
 }
