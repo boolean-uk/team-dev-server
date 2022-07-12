@@ -71,3 +71,18 @@ export const getAllCohortExercises = async (req, res) => {
     return sendMessageResponse(res, 500, 'Unable to get exercise')
   }
 }
+
+export const createCohortExercise = async (req, res) => {
+  const { exerciseId: exerciseID, cohortId: cohortID } = req.body
+
+  try {
+    const createdCohortExercise = await CohortExercise.createdCohortExercise(
+      exerciseID,
+      cohortID
+    )
+
+    return sendDataResponse(res, 201, createdCohortExercise)
+  } catch (e) {
+    return sendMessageResponse(res, 500, e.message)
+  }
+}

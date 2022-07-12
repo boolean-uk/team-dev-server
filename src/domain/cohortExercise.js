@@ -73,4 +73,11 @@ export default class CohortExercise {
     })
     return CohortExercise.fromDb(foundExercise)
   }
+
+  static async createCohortExercise(exerciseId, cohortId) {
+    const createdCohortExercise = await dbClient.CohortExercise.create({
+      data: { exerciseId, cohortId }
+    })
+    return new CohortExercise(createdCohortExercise.id, exerciseId, cohortId)
+  }
 }

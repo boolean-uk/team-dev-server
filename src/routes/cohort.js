@@ -3,7 +3,8 @@ import {
   create,
   cohorts,
   getCohortById,
-  getAllCohortExercises
+  getAllCohortExercises,
+  createCohortExercise
 } from '../controllers/cohort.js'
 import {
   validateAuthentication,
@@ -15,11 +16,16 @@ const router = Router()
 router.post('/', validateAuthentication, validateTeacherRole, create)
 router.get('/', validateAuthentication, validateTeacherRole, cohorts)
 router.get('/:id', validateAuthentication, validateTeacherRole, getCohortById)
-
 router.get(
   '/:id/cohortExercises',
   validateAuthentication,
   getAllCohortExercises
+)
+router.post(
+  '/:id/cohortExercise',
+  validateAuthentication,
+  validateTeacherRole,
+  createCohortExercise
 )
 
 export default router
