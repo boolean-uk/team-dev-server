@@ -31,7 +31,6 @@ export const createNote = async (req, res) => {
 export const deleteNote = async (req, res) => {
   const noteId = Number(req.params.id)
   try {
-    if (!noteId) throw new Error('The note does not exist')
     const data = await Note.delete(noteId)
     return sendDataResponse(res, 200, data)
   } catch (err) {
