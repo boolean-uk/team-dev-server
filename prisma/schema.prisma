@@ -142,7 +142,6 @@ model Conversation {
 
 model Message {
   id                Int           @id @default(autoincrement())
-  createdBy         String
   content           String
   userId            Int
   user              User          @relation(fields: [userId], references: [id])

@@ -23,14 +23,12 @@ export default class Conversation {
     this.createdBy = createdBy
     this.usersIds = usersIds
     this.id = id
-
     this.createdAt = createdAt
     this.updatedAt = updatedAt
     this.users = users
   }
 
   async save() {
-    console.log('THIS : ', this)
     const createdConversation = await dbClient.conversation.create({
       data: {
         name: this.name,

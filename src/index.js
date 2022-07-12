@@ -25,7 +25,7 @@ app.use('/cohort', cohortRouter)
 app.use('/log', deliveryLogRouter)
 app.use('/note', noteRouter)
 app.use('/', authRouter)
-app.use('/messages', conversationRouter)
+app.use('/conversations', conversationRouter)
 app.use('/exercises', exerciseRouter)
 app.use('/courses', courseRouter)
 
