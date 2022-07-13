@@ -32,8 +32,10 @@ model User {
   updatedAt      DateTime      @updatedAt
   postComments   PostComment[]
   postLikes      PostLike[]
-  submissions    Submission[]
-}
+  submissions    Submission[]  
+  messages       Message[]
+  conversations   UsersAndConversations[]
+ }
 
 model Note {
   id        Int      @id @default(autoincrement())
@@ -131,6 +133,36 @@ model DeliveryLogLine {
   updatedAt DateTime    @updatedAt
 }
 
+model Conversation {
+  id        Int         @id @default(autoincrement())
+  name      String
+  createdBy Int
+  messages  Message[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  users     UsersAndConversations[]
+}
+
+model Message {
+  id                Int           @id @default(autoincrement())
+  createdBy         String
+  content           String
+  userId            Int
+  user              User          @relation(fields: [userId], references: [id])
+  conversationId    Int
+  conversation      Conversation  @relation(fields: [conversationId], references: [id], onDelete:Cascade)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
+model UsersAndConversations {
+userId            Int
+user              User  @relation(fields: [userId], references: [id])
+conversationId    Int
+conversation      Conversation  @relation(fields: [conversationId], references: [id], onDelete:Cascade)
+
+@@id([userId, conversationId])
+}
 model Course {
   id         Int      @id @default(autoincrement())
   courseName String   @unique
