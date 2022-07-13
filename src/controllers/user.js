@@ -220,7 +220,7 @@ export const updateNoteById = async (req, res) => {
   }
 }
 
-export const submitExercise = async (req, res) => {
+export const createSubmission = async (req, res) => {
   const cohortExerciseId = Number(req.params.id)
 
   const { userId } = req.body

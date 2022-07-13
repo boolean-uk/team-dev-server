@@ -7,7 +7,7 @@ import {
   updateProfile,
   createNote,
   getAllNotes,
-  submitExercise
+  createSubmission
 } from '../controllers/user.js'
 import {
   validateAuthentication,
@@ -26,7 +26,7 @@ router.get('/:id/notes', validateAuthentication, getAllNotes)
 router.post(
   '/cohortExercises/:id/submissions',
   validateAuthentication,
-  submitExercise
+  createSubmission
 )
 
 export default router
