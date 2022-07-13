@@ -35,11 +35,11 @@ export default class CohortExercise {
   }
 
   static async _findMany({ whereData }) {
-    const foundExercise = await dbClient.CohortExercise.findMany({
+    const foundExercises = await dbClient.CohortExercise.findMany({
       orderBy: { createdAt: 'desc' },
       where: { ...whereData }
     })
-    return foundExercise.map((exercise) => CohortExercise.fromDb(exercise))
+    return foundExercises.map((exercise) => CohortExercise.fromDb(exercise))
   }
 
   static async delete(foundId) {
