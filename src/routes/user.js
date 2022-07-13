@@ -7,6 +7,7 @@ import {
   createSubmission,
   updateProfile
 } from '../controllers/user.js'
+import { findAllConversationsByUserId } from '../controllers/conversation.js'
 import { createNote, getAllNotes } from '../controllers/note.js'
 import {
   validateAuthentication,
@@ -22,6 +23,11 @@ router.patch('/:id', validateAuthentication, validateTeacherRole, updateById)
 router.patch('/update/:id', validateAuthentication, updateProfile)
 router.post('/:id/note', validateAuthentication, createNote)
 router.get('/:id/notes', validateAuthentication, getAllNotes)
+router.get(
+  '/:userId/conversations',
+  validateAuthentication,
+  findAllConversationsByUserId
+)
 router.post(
   '/cohortExercises/:id/submissions',
   validateAuthentication,
