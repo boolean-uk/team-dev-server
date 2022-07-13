@@ -145,7 +145,7 @@ model Message {
   userId            Int
   user              User          @relation(fields: [userId], references: [id])
   conversationId    Int
-  conversation      Conversation  @relation(fields: [conversationId], references: [id])
+  conversation      Conversation  @relation(fields: [conversationId], references: [id], onDelete:Cascade)
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
 }
@@ -154,7 +154,7 @@ model UsersAndConversations {
 userId            Int
 user              User  @relation(fields: [userId], references: [id])
 conversationId    Int
-conversation      Conversation  @relation(fields: [conversationId], references: [id])
+conversation      Conversation  @relation(fields: [conversationId], references: [id], onDelete:Cascade)
 
 @@id([userId, conversationId])
 }

@@ -2,7 +2,6 @@
 CREATE TABLE "Conversation" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "createdBy" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -12,7 +11,6 @@ CREATE TABLE "Conversation" (
 -- CreateTable
 CREATE TABLE "Message" (
     "id" SERIAL NOT NULL,
-    "createdBy" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "conversationId" INTEGER NOT NULL,

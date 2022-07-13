@@ -61,9 +61,9 @@ export default class Exercise {
     return {
       exercise: {
         id: this.id,
-        cohort_name: this.name,
+        exercise_name: this.name,
         github_url: this.githubUrl,
-        unit_Id: this.unitId
+        unit_id: this.unitId
       }
     }
   }
