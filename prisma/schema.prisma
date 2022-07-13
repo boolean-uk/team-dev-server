@@ -133,7 +133,6 @@ model DeliveryLogLine {
 model Conversation {
   id        Int         @id @default(autoincrement())
   name      String
-  createdBy Int
   messages  Message[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt

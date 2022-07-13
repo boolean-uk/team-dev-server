@@ -10,6 +10,7 @@ import exerciseRouter from './routes/exercise.js'
 import courseRouter from './routes/course.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
 import conversationRouter from './routes/conversation.js'
+import messageRouter from './routes/message.js'
 
 const app = express()
 app.disable('x-powered-by')
@@ -28,6 +29,7 @@ app.use('/', authRouter)
 app.use('/conversations', conversationRouter)
 app.use('/exercises', exerciseRouter)
 app.use('/courses', courseRouter)
+app.use('/messages', messageRouter)
 
 app.get('*', (req, res) => {
   res.status(404).json({

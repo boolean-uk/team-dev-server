@@ -15,3 +15,18 @@ export const createConversation = async (req, res) => {
     return sendDataResponse(res, 400, { err: err.message })
   }
 }
+
+export const findAllConversationsByUserId = async (req, res) => {
+  const { userId } = req.params
+
+  try {
+    const conversations = await Conversation.findAll(userId)
+    if (conversations.length === 0) {
+      throw new Error('Conversations not Found')
+    }
+    const data = { conversations }
+    return sendDataResponse(res, 201, data)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
+  }
+}
