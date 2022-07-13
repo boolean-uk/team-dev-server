@@ -59,29 +59,29 @@ export const getAllCohortExercises = async (req, res) => {
   whereData.cohortId = cohortId
 
   try {
-    const foundExercise = await CohortExercise.findAll({ whereData })
+    const foundExercises = await CohortExercise.findAll({ whereData })
 
-    const formattedExercise = foundExercise.map((exercise) => {
+    const formattedExercises = foundExercises.map((exercise) => {
       return {
         ...exercise.toJSON().exercise
       }
     })
-    return sendDataResponse(res, 200, { cohortExercises: formattedExercise })
+    return sendDataResponse(res, 200, { cohortExercises: formattedExercises })
   } catch (e) {
     return sendMessageResponse(res, 500, 'Unable to get exercise')
   }
 }
 
 export const createCohortExercise = async (req, res) => {
-  const { exerciseId: exerciseID, cohortId: cohortID } = req.body
+  const { exerciseId, cohortId } = req.body
 
   try {
-    const createdCohortExercise = await CohortExercise.createdCohortExercise(
-      exerciseID,
-      cohortID
+    const createCohortExercise = await CohortExercise.createdCohortExercise(
+      exerciseId,
+      cohortId
     )
 
-    return sendDataResponse(res, 201, createdCohortExercise)
+    return sendDataResponse(res, 201, createCohortExercise)
   } catch (e) {
     return sendMessageResponse(res, 500, e.message)
   }

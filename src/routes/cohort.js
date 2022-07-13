@@ -22,7 +22,7 @@ router.get(
   getAllCohortExercises
 )
 router.post(
-  '/:id/cohortExercise',
+  '/:id/cohortExercises',
   validateAuthentication,
   validateTeacherRole,
   createCohortExercise
