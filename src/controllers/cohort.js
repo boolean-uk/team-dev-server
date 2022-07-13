@@ -1,4 +1,5 @@
 import { createCohort, getCohorts, getCohort } from '../domain/cohort.js'
+import CohortExercise from '../domain/cohortExercise.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import User from '../domain/user.js'
 
@@ -49,5 +50,39 @@ export const getCohortById = async (req, res) => {
     return sendDataResponse(res, 201, cohort)
   } catch (e) {
     return sendMessageResponse(res, 500, 'Unable to get cohort')
+  }
+}
+
+export const getAllCohortExercises = async (req, res) => {
+  const cohortId = Number(req.params.id)
+  const whereData = {}
+  whereData.cohortId = cohortId
+
+  try {
+    const foundExercises = await CohortExercise.findAll({ whereData })
+
+    const formattedExercises = foundExercises.map((exercise) => {
+      return {
+        ...exercise.toJSON().exercise
+      }
+    })
+    return sendDataResponse(res, 200, { cohortExercises: formattedExercises })
+  } catch (e) {
+    return sendMessageResponse(res, 500, 'Unable to get exercise')
+  }
+}
+
+export const createCohortExercise = async (req, res) => {
+  const { exerciseId, cohortId } = req.body
+
+  try {
+    const createdCohortExercise = await CohortExercise.createCohortExercise(
+      exerciseId,
+      cohortId
+    )
+
+    return sendDataResponse(res, 201, createdCohortExercise)
+  } catch (e) {
+    return sendMessageResponse(res, 500, e.message)
   }
 }

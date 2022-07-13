@@ -4,6 +4,7 @@ import {
   getById,
   getAll,
   updateById,
+  createSubmission,
   updateProfile
 } from '../controllers/user.js'
 import { findAllConversationsByUserId } from '../controllers/conversation.js'
@@ -26,6 +27,11 @@ router.get(
   '/:userId/conversations',
   validateAuthentication,
   findAllConversationsByUserId
+)
+router.post(
+  '/cohortExercises/:id/submissions',
+  validateAuthentication,
+  createSubmission
 )
 
 export default router
