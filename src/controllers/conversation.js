@@ -21,9 +21,7 @@ export const findAllConversationsByUserId = async (req, res) => {
 
   try {
     const conversations = await Conversation.findAll(userId)
-    if (conversations.length === 0) {
-      throw new Error('Conversations not Found')
-    }
+
     const data = { conversations }
     return sendDataResponse(res, 201, data)
   } catch (err) {
