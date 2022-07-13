@@ -76,12 +76,12 @@ export const createCohortExercise = async (req, res) => {
   const { exerciseId, cohortId } = req.body
 
   try {
-    const createCohortExercise = await CohortExercise.createdCohortExercise(
+    const createdCohortExercise = await CohortExercise.createCohortExercise(
       exerciseId,
       cohortId
     )
 
-    return sendDataResponse(res, 201, createCohortExercise)
+    return sendDataResponse(res, 201, createdCohortExercise)
   } catch (e) {
     return sendMessageResponse(res, 500, e.message)
   }
