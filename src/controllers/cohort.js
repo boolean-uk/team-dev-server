@@ -1,4 +1,8 @@
-import { createCohort, getCohorts, getCohort } from '../domain/cohort.js'
+import Cohort, {
+  createCohort,
+  getCohorts,
+  getCohort
+} from '../domain/cohort.js'
 import CohortExercise from '../domain/cohortExercise.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import User from '../domain/user.js'
@@ -46,6 +50,18 @@ export const getCohortById = async (req, res) => {
       const students = await User.findAll({ whereData: { cohortId: null } })
       cohort.availableStudents = students
     }
+
+    return sendDataResponse(res, 201, cohort)
+  } catch (e) {
+    return sendMessageResponse(res, 500, 'Unable to get cohort')
+  }
+}
+
+export const getCohortName = async (req, res) => {
+  const id = Number(req.params.id)
+
+  try {
+    const cohort = await Cohort.findCohortByID(id)
 
     return sendDataResponse(res, 201, cohort)
   } catch (e) {
