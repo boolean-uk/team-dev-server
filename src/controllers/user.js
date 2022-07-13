@@ -1,5 +1,6 @@
 import User from '../domain/user.js'
 import Cohort from '../domain/cohort.js'
+import Submission from '../domain/Submission.js'
 import jwt from 'jsonwebtoken'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { JWT_EXPIRY, JWT_SECRET } from '../utils/config.js'
@@ -133,5 +134,30 @@ export const updateProfile = async (req, res) => {
   } catch (error) {
     console.error('error updating profile', error.message)
     return sendMessageResponse(res, 500, 'Unable to update new user')
+  }
+}
+
+export const createSubmission = async (req, res) => {
+  const cohortExerciseId = Number(req.params.id)
+
+  const { userId } = req.body
+
+  const newSubmissionData = {
+    userId,
+    cohortExerciseId
+  }
+  console.log(newSubmissionData)
+
+  try {
+    if (!cohortExerciseId) {
+      throw new Error('Please provide ExerciseId')
+    }
+
+    const submissionToCreate = await Submission.fromJson(newSubmissionData)
+    const submission = await submissionToCreate.save()
+
+    return sendDataResponse(res, 201, submission)
+  } catch (err) {
+    return sendDataResponse(res, 400, { err: err.message })
   }
 }
