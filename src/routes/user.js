@@ -4,10 +4,9 @@ import {
   getById,
   getAll,
   updateById,
-  updateProfile,
-  createNote,
-  getAllNotes
+  updateProfile
 } from '../controllers/user.js'
+import { createNote, getAllNotes } from '../controllers/note.js'
 import {
   validateAuthentication,
   validateTeacherRole
