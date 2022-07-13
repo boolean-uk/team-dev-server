@@ -146,7 +146,6 @@ export const createSubmission = async (req, res) => {
     userId,
     cohortExerciseId
   }
-  console.log(newSubmissionData)
 
   try {
     if (!cohortExerciseId) {

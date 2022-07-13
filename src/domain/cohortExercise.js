@@ -5,7 +5,9 @@ export default class CohortExercise {
     return new CohortExercise(
       exercise.id,
       exercise.exerciseId,
-      exercise.cohortId
+      exercise.cohortId,
+      exercise.Exercise,
+      exercise.Exercise.Unit
     )
   }
 
@@ -14,10 +16,12 @@ export default class CohortExercise {
     return new CohortExercise(id, exerciseId, cohortId)
   }
 
-  constructor(id, exerciseId, cohortId) {
+  constructor(id, exerciseId, cohortId, exercise, unit) {
     this.id = id
     this.exerciseId = exerciseId
     this.cohortId = cohortId
+    this.exercise = exercise
+    this.unit = unit
   }
 
   async save() {
@@ -30,14 +34,14 @@ export default class CohortExercise {
     return CohortExercise.fromDb(createdExercise)
   }
 
-  static async findAll({ whereData }) {
-    return CohortExercise._findMany({ whereData })
+  static async findAll(query) {
+    return CohortExercise._findMany(query)
   }
 
-  static async _findMany({ whereData }) {
+  static async _findMany(query) {
     const foundExercises = await dbClient.CohortExercise.findMany({
       orderBy: { createdAt: 'desc' },
-      where: { ...whereData }
+      ...query
     })
     return foundExercises.map((exercise) => CohortExercise.fromDb(exercise))
   }
@@ -52,10 +56,20 @@ export default class CohortExercise {
 
   toJSON() {
     return {
-      exercise: {
+      cohortExercise: {
         id: this.id,
         exerciseId: this.exerciseId,
-        cohortId: this.cohortId
+        cohortId: this.cohortId,
+        exercise: {
+          id: this.exercise.id,
+          exerciseName: this.exercise.exerciseName,
+          githubUrl: this.exercise.githubUrl,
+          unitId: this.exercise.unitId,
+          unit: this.exercise.Unit,
+          createdAt: this.exercise.createdAt,
+          updatedAt: this.exercise.updatedAt,
+          cohortExercises: this.exercise.cohortExercises
+        }
       }
     }
   }

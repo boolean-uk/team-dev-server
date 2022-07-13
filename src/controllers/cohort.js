@@ -55,15 +55,23 @@ export const getCohortById = async (req, res) => {
 
 export const getAllCohortExercises = async (req, res) => {
   const cohortId = Number(req.params.id)
-  const whereData = {}
-  whereData.cohortId = cohortId
+  const query = {
+    where: { cohortId },
+    include: {
+      Exercise: {
+        include: {
+          Unit: true
+        }
+      }
+    }
+  }
 
   try {
-    const foundExercises = await CohortExercise.findAll({ whereData })
+    const foundExercises = await CohortExercise.findAll(query)
 
     const formattedExercises = foundExercises.map((exercise) => {
       return {
-        ...exercise.toJSON().exercise
+        ...exercise.toJSON()
       }
     })
     return sendDataResponse(res, 200, { cohortExercises: formattedExercises })
