@@ -4,9 +4,9 @@ export default class Message {
   static fromDb(message) {
     return new Message(
       message.content,
-      message.createdBy,
       message.userId,
       message.conversationId,
+      message.user.profile.firstName + ' ' + message.user.profile.lastName,
       message.id,
       message.createdAt,
       message.updatedAt
@@ -14,23 +14,23 @@ export default class Message {
   }
 
   static async fromJson(json) {
-    const { content, createdBy, userId, conversationId } = json
-    return new Message(content, createdBy, userId, conversationId)
+    const { content, userId, conversationId } = json
+    return new Message(content, userId, conversationId)
   }
 
   constructor(
     content,
-    createdBy,
     userId,
     conversationId,
+    createdBy,
     id,
     createdAt,
     updatedAt
   ) {
     this.content = content
-    this.createdBy = createdBy
     this.userId = userId
     this.conversationId = conversationId
+    this.createdBy = createdBy
     this.id = id
     this.createdAt = createdAt
     this.updatedAt = updatedAt
@@ -40,9 +40,11 @@ export default class Message {
     const createdMessage = await dbClient.message.create({
       data: {
         content: this.content,
-        createdBy: this.createdBy,
         userId: this.userId,
         conversationId: this.conversationId
+      },
+      include: {
+        user: { include: { profile: true } }
       }
     })
     return Message.fromDb(createdMessage)
