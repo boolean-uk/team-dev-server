@@ -65,20 +65,23 @@ export default class Conversation {
       include: { messages: true, users: true }
     })
     foundConversations = await Promise.all(
-      foundConversations.map(async(conversation) => {
-       let newMessages = await dbClient.message.findMany({
-          where : {
-            conversationId : conversation.id
+      foundConversations.map(async (conversation) => {
+        let newMessages = await dbClient.message.findMany({
+          where: {
+            conversationId: conversation.id
           },
           include: {
             user: { include: { profile: true } }
           }
         })
-        newMessages = newMessages.map((newMessage) =>{
-          const createdBy = newMessage.user.profile.firstName + ' ' + newMessage.user.profile.lastName
-          return {...newMessage, createdBy}
+        newMessages = newMessages.map((newMessage) => {
+          const createdBy =
+            newMessage.user.profile.firstName +
+            ' ' +
+            newMessage.user.profile.lastName
+          return { ...newMessage, createdBy }
         })
-        return{...conversation, messages : newMessages}
+        return { ...conversation, messages: newMessages }
       })
     )
     return foundConversations.map((conversation) =>
