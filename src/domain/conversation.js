@@ -62,7 +62,7 @@ export default class Conversation {
           }
         }
       },
-      include: { messages: true }
+      include: { messages: true, users: true }
     })
     return foundConversations.map((conversation) =>
       Conversation.fromDb(conversation)

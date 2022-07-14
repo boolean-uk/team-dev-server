@@ -9,6 +9,8 @@ import noteRouter from './routes/note.js'
 import exerciseRouter from './routes/exercise.js'
 import courseRouter from './routes/course.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
+import conversationsRouter from './routes/conversation.js'
+import messagesRouter from './routes/message.js'
 
 const app = express()
 app.disable('x-powered-by')
@@ -26,6 +28,8 @@ app.use('/note', noteRouter)
 app.use('/', authRouter)
 app.use('/exercises', exerciseRouter)
 app.use('/courses', courseRouter)
+app.use('/conversations', conversationsRouter)
+app.use('/messages', messagesRouter)
 
 app.get('*', (req, res) => {
   res.status(404).json({

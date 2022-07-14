@@ -6,6 +6,7 @@ export default class Message {
       message.content,
       message.userId,
       message.conversationId,
+      message.user.profile.firstName + ' ' + message.user.profile.lastName,
       message.id,
       message.createdAt,
       message.updatedAt
@@ -17,10 +18,19 @@ export default class Message {
     return new Message(content, userId, conversationId)
   }
 
-  constructor(content, userId, conversationId, id, createdAt, updatedAt) {
+  constructor(
+    content,
+    userId,
+    conversationId,
+    createdBy,
+    id,
+    createdAt,
+    updatedAt
+  ) {
     this.content = content
     this.userId = userId
     this.conversationId = conversationId
+    this.createdBy = createdBy
     this.id = id
     this.createdAt = createdAt
     this.updatedAt = updatedAt
@@ -32,6 +42,9 @@ export default class Message {
         content: this.content,
         userId: this.userId,
         conversationId: this.conversationId
+      },
+      include: {
+        user: { include: { profile: true } }
       }
     })
     return Message.fromDb(createdMessage)
