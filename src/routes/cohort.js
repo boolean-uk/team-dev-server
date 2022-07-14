@@ -4,7 +4,8 @@ import {
   cohorts,
   getCohortById,
   getAllCohortExercises,
-  createCohortExercise
+  createCohortExercise,
+  getCohortName
 } from '../controllers/cohort.js'
 import {
   validateAuthentication,
@@ -16,6 +17,7 @@ const router = Router()
 router.post('/', validateAuthentication, validateTeacherRole, create)
 router.get('/', validateAuthentication, validateTeacherRole, cohorts)
 router.get('/:id', validateAuthentication, validateTeacherRole, getCohortById)
+router.get('/:id/name', validateAuthentication, getCohortName)
 router.get(
   '/:id/cohortExercises',
   validateAuthentication,
