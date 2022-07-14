@@ -142,6 +142,7 @@ model Conversation {
 model Message {
   id                Int           @id @default(autoincrement())
   content           String
+  createdBy         String
   userId            Int
   user              User          @relation(fields: [userId], references: [id])
   conversationId    Int
