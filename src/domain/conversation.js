@@ -75,10 +75,7 @@ export default class Conversation {
           }
         })
         newMessages = newMessages.map((newMessage) => {
-          const createdBy =
-            newMessage.user.profile.firstName +
-            ' ' +
-            newMessage.user.profile.lastName
+          const createdBy = `${newMessage.user.profile.firstName} ${newMessage.user.profile.lastName}`
           return { ...newMessage, createdBy }
         })
         return { ...conversation, messages: newMessages }
