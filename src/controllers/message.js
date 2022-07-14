@@ -3,6 +3,7 @@ import Message from '../domain/message.js'
 
 export const createMessage = async (req, res) => {
   const { content } = req.body
+
   try {
     if (!content) {
       throw new Error('Content must be provided')
