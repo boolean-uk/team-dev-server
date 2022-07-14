@@ -2,10 +2,10 @@ import { sendDataResponse } from '../utils/responses.js'
 import Conversation from '../domain/conversation.js'
 
 export const createConversation = async (req, res) => {
-  const { name, createdBy, usersIds } = req.body
+  const { name, usersIds } = req.body
 
   try {
-    if (!name || usersIds.length === 0 || !createdBy) {
+    if (!name || usersIds.length === 0) {
       throw new Error('Please provide appropriate content')
     }
     const conversationToCreate = await Conversation.fromJson(req.body)
