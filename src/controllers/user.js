@@ -89,29 +89,14 @@ export const updateLoggedInUser = async (req, res) => {
 export const updateUserById = async (req, res) => {
   const id = parseInt(req.params.id)
 
-  const { email, firstName, lastName, bio, githubUrl, profileImageUrl } =
-    req.body
+  const { firstName, lastName, bio, githubUrl, profileImageUrl } = req.body
 
   const foundUser = await User.findById(id)
-  const foundUserByEmail = await User.findByEmail(email)
 
   if (!foundUser) {
     return sendDataResponse(res, 404, { id: 'User not found' })
-  }
-
-  if (foundUserByEmail) {
-    return sendDataResponse(res, 400, {
-      id: 'A user with this email already exists'
-    })
-  }
-
-  if (foundUser.email === email) {
-    return sendDataResponse(res, 400, {
-      id: 'New email is the same as current'
-    })
   } else {
     const updateUser = await foundUser.update({
-      email,
       firstName,
       lastName,
       bio,

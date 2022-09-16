@@ -62,7 +62,7 @@ export default class User {
     email,
     bio,
     githubUrl,
-    profileImageUrl = 'https://www.pngfind.com/pngs/m/676-6764065_default-profile-picture-transparent-hd-png-download.png',
+    profileImageUrl = 'https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg',
     passwordHash = null,
     role = 'STUDENT'
   ) {
